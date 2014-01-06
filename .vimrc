@@ -65,5 +65,12 @@ set noswapfile
 " set listchars=tab:>.,trail:.,extends:#,nbsp:.
 
 " plugins
-map <C-n> :NERDTreeToggle<CR>
+execute pathogen#infect()
 
+map <silent> <leader>t :NERDTreeToggle<CR> :NERDTreeMirror<CR>
+
+let g:kolor_italic=1                    " Enable italic. Default: 1
+let g:kolor_bold=1                      " Enable bold. Default: 1
+let g:kolor_underlined=0                " Enable underline. Default: 0
+let g:kolor_alternative_matchparen=0    " Gray 'MatchParen' color. Default: 0
+colorscheme kolor
