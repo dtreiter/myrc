@@ -69,7 +69,7 @@ set noswapfile
 " plugins
 execute pathogen#infect()
 
-/*map <silent> <leader>t :NERDTreeToggle<CR> :NERDTreeMirror<CR>*/
+map <silent> <leader>t :NERDTreeToggle<CR> :NERDTreeMirror<CR>
 
 " let g:kolor_italic=1                    " Enable italic. Default: 1
 " let g:kolor_bold=1                      " Enable bold. Default: 1
