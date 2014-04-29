@@ -2,6 +2,8 @@
 inoremap kj <esc>
 vnoremap kj <esc>
 cnoremap kj <esc>
+nnoremap = M2kzz
+nnoremap - M2jzz
 
 nnoremap ; :
 
@@ -67,9 +69,8 @@ set noswapfile
 " plugins
 execute pathogen#infect()
 
-map <silent> <leader>t :NERDTreeToggle<CR> :NERDTreeMirror<CR>
+/*map <silent> <leader>t :NERDTreeToggle<CR> :NERDTreeMirror<CR>*/
 
-" Color Scheme
 " let g:kolor_italic=1                    " Enable italic. Default: 1
 " let g:kolor_bold=1                      " Enable bold. Default: 1
 " let g:kolor_underlined=0                " Enable underline. Default: 0
