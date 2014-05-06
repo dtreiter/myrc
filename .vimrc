@@ -1,19 +1,26 @@
-" remap escape
+" Remap escape
 inoremap kj <esc>
 vnoremap kj <esc>
 cnoremap kj <esc>
+
+" Allow scrolling with - and =
 nnoremap = M2kzz
 nnoremap - M2jzz
 
+" Enable scrolling with mouse
+set mouse=a
+
+" Move by display lines with word wrap
+nnoremap j gj
+nnoremap k gk
+
+" Semicolon is easier to type than colon
 nnoremap ; :
 
 " Enter paste mode from insert mode
 set pastetoggle=qp
 
-" enable scrolling with mouse
-set mouse=a
-
-" change the mapleader from \ to ,
+" Change the mapleader from \ to ,
 let mapleader=","
 
 " Quickly edit/reload the vimrc file
@@ -23,14 +30,13 @@ nmap <silent> <leader>sv :so $MYVIMRC<CR>
 " Hide buffers instead of closing them
 set hidden
 
-map <C-t><right> :tabl<cr>
-map <C-t><left> :tabr<cr>
-map <C-t><down> :tabp<cr>
-map <C-t><up> :tabn<cr>
+" map <C-t><right> :tabl<cr>
+" map <C-t><left> :tabr<cr>
+" map <C-t><down> :tabp<cr>
+" map <C-t><up> :tabn<cr>
 
 syntax on         " syntax highlighting
 " set nowrap        " don't wrap lines
-set tabstop=4     " a tab is four spaces
 
 " allow backspacing over everything in insert mode
 set backspace=indent,eol,start
@@ -38,7 +44,7 @@ set backspace=indent,eol,start
 set autoindent    " always set autoindenting on
 set copyindent    " copy the previous indentation on autoindenting
 set number        " always show line numbers
-set shiftwidth=4  " number of spaces to use for autoindenting
+set shiftwidth=2  " number of spaces to use for autoindenting
 set shiftround    " use multiple of shiftwidth when indenting with '<' and '>'
 set showmatch     " set show matching parenthesis
 set ignorecase    " ignore case when searching
@@ -46,6 +52,7 @@ set smartcase     " ignore case if search pattern is all lowercase,
                   "    case-sensitive otherwise
 set smarttab      " insert tabs on the start of a line according to
                   "    shiftwidth, not tabstop
+set expandtab     " use spaces instead of tabs
 set hlsearch      " highlight search terms
 set incsearch     " show search matches as you type
 
