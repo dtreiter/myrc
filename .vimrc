@@ -9,6 +9,11 @@ nnoremap - M2jzz
 
 " Enable scrolling with mouse
 set mouse=a
+" Fix pane resizing inside tmux
+if &term =~ '^screen'
+    " tmux knows the extended mouse mode
+    set ttymouse=xterm2
+endif
 
 " Move by display lines with word wrap
 nnoremap j gj
