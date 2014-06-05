@@ -7,6 +7,9 @@ cnoremap kj <esc>
 nnoremap = M2kzz
 nnoremap - M2jzz
 
+" Remap Space to scroll down
+nnoremap <Space> M3jzz
+
 " Enable scrolling with mouse
 set mouse=a
 " Fix pane resizing inside tmux
