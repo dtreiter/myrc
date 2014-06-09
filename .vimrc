@@ -9,6 +9,7 @@ nnoremap - M2jzz
 
 " Remap Space to scroll down
 nnoremap <Space> M3jzz
+nnoremap <Return> M3kzz
 
 " Enable scrolling with mouse
 set mouse=a
