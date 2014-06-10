@@ -1,0 +1,8 @@
+# Enable vi keys
+set -o vi
+# Remap ESC
+bind -m vi-insert '"kj": vi-movement-mode'
+
+# Aliases
+alias g='git'
+alias gs='git status'
