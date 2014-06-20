@@ -1,15 +1,19 @@
-" Remap escape
+" Remap escape so you just mash both 'j' and 'k'
 inoremap kj <esc>
 vnoremap kj <esc>
 cnoremap kj <esc>
+inoremap jk <esc>
+vnoremap jk <esc>
+cnoremap jk <esc>
 
 " Allow scrolling with - and =
 nnoremap = M2kzz
 nnoremap - M2jzz
 
 " Remap Space to scroll down
-nnoremap <Space> M3jzz
-nnoremap <Return> M3kzz
+nnoremap <Space> <C-d>
+nnoremap <BS> <C-u>
+nnoremap <Return> <C-u>
 
 " Enable scrolling with mouse
 set mouse=a
@@ -38,11 +42,6 @@ nmap <silent> <leader>sv :so $MYVIMRC<CR>
 
 " Hide buffers instead of closing them
 set hidden
-
-" map <C-t><right> :tabl<cr>
-" map <C-t><left> :tabr<cr>
-" map <C-t><down> :tabp<cr>
-" map <C-t><up> :tabn<cr>
 
 syntax on         " syntax highlighting
 " set nowrap        " don't wrap lines
@@ -85,14 +84,8 @@ set noswapfile
 " plugins
 execute pathogen#infect()
 
-" navigation tree
+" open NERDTree nav with <leader>t
 map <silent> <leader>t :NERDTreeToggle<CR> :NERDTreeMirror<CR>
 
-" map easymotion to 'f' find
+" remap find to use easymotion
 map f <Plug>(easymotion-s)
-
-" let g:kolor_italic=1                    " Enable italic. Default: 1
-" let g:kolor_bold=1                      " Enable bold. Default: 1
-" let g:kolor_underlined=0                " Enable underline. Default: 0
-" let g:kolor_alternative_matchparen=0    " Gray 'MatchParen' color. Default: 0
-" colorscheme kolor
