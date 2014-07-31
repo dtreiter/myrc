@@ -1,4 +1,6 @@
 ;;; fix C-h backspace
+(setq show-trailing-whitespace t)
+(setq-default indicate-empty-lines t)
 (global-set-key [(control h)] 'delete-backward-char)
 
 ;;; remove menu bar
@@ -7,7 +9,7 @@
 ;;; enable mouse
 (require 'mouse)
 (xterm-mouse-mode t)
-(defun track-mouse (e)) 
+(defun track-mouse (e))
 (setq mouse-sel-mode t)
 
 ;;; use elpa
