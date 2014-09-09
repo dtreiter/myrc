@@ -10,6 +10,10 @@ cnoremap jk <esc>
 nnoremap = M2kzz
 nnoremap - M2jzz
 
+" Quick buffer switching
+nnoremap ]b :bn<CR>
+nnoremap [b :bp<CR>
+
 " Remap Space to scroll down
 nnoremap <Space> <C-d>
 nnoremap <BS> <C-u>
