@@ -6,6 +6,11 @@
 ;;; remove menu bar
 (menu-bar-mode -1)
 
+;;; enable line numbers
+(require 'linum)
+(global-linum-mode t)
+(setq linum-format "%d ")
+
 ;;; enable mouse
 (require 'mouse)
 (xterm-mouse-mode t)
@@ -32,20 +37,32 @@ re-downloaded in order to locate PACKAGE."
 
 (package-initialize)
 
+;;; fuzzy file find
+;;; TODO: install grizzl
+(require 'projectile)
+;;;(setq projectile-completion-system 'grizzl)
+
 ;;; vim-like key bindings
 (require-package 'evil)
+(require 'evil)
+(evil-mode t)
+(require 'key-chord)
+(key-chord-mode 1)
+
+(key-chord-define evil-insert-state-map "jk" 'evil-normal-state)
+(key-chord-define evil-visual-state-map "jk" 'evil-normal-state)
 
 (setq evil-search-module 'evil-search
       evil-want-C-u-scroll t
       evil-want-C-w-in-emacs-state t)
 
-(require 'evil)
-(evil-mode t)
-
+(global-set-key (kbd "`") 'execute-extended-command)
 (define-key evil-normal-state-map "f" 'ace-jump-char-mode)
-;;;(define-key evil-normal-state-map "<backspace>" 'evil-scroll-page-up)
+(define-key evil-normal-state-map (kbd ",f") 'projectile-find-file)
+(define-key evil-normal-state-map (kbd "SPC") 'evil-scroll-page-down)
+(define-key evil-normal-state-map (kbd "DEL") 'evil-scroll-page-up)
 (define-key evil-visual-state-map "f" 'ace-jump-char-mode)
-(define-key evil-visual-state-map ";" 'evil-ex)
+(define-key evil-normal-state-map (kbd ";") 'evil-ex)
 
 ;;; esc quits
 (define-key evil-normal-state-map [escape] 'keyboard-quit)
