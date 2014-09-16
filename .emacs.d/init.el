@@ -57,21 +57,24 @@ re-downloaded in order to locate PACKAGE."
       evil-want-C-w-in-emacs-state t)
 
 (global-set-key (kbd "`") 'execute-extended-command)
-(define-key evil-normal-state-map "f" 'ace-jump-char-mode)
+(define-key evil-normal-state-map (kbd ";") 'evil-ex)
 (define-key evil-normal-state-map (kbd ",f") 'projectile-find-file)
+(define-key evil-normal-state-map (kbd ",ak") 'ack-and-a-half)
+(define-key evil-normal-state-map (kbd "]b") 'next-buffer)
+(define-key evil-normal-state-map (kbd "[b") 'previous-buffer)
 (define-key evil-normal-state-map (kbd "SPC") 'evil-scroll-page-down)
 (define-key evil-normal-state-map (kbd "DEL") 'evil-scroll-page-up)
+(define-key evil-normal-state-map "f" 'ace-jump-char-mode)
 (define-key evil-visual-state-map "f" 'ace-jump-char-mode)
-(define-key evil-normal-state-map (kbd ";") 'evil-ex)
 
 ;;; esc quits
-(define-key evil-normal-state-map [escape] 'keyboard-quit)
-(define-key evil-visual-state-map [escape] 'keyboard-quit)
-(define-key minibuffer-local-map [escape] 'minibuffer-keyboard-quit)
-(define-key minibuffer-local-ns-map [escape] 'minibuffer-keyboard-quit)
-(define-key minibuffer-local-completion-map [escape] 'minibuffer-keyboard-quit)
-(define-key minibuffer-local-must-match-map [escape] 'minibuffer-keyboard-quit)
-(define-key minibuffer-local-isearch-map [escape] 'minibuffer-keyboard-quit)
+;;;(define-key evil-normal-state-map [escape] 'keyboard-quit)
+;;;(define-key evil-visual-state-map [escape] 'keyboard-quit)
+;;;(define-key minibuffer-local-map [escape] 'minibuffer-keyboard-quit)
+;;;(define-key minibuffer-local-ns-map [escape] 'minibuffer-keyboard-quit)
+;;;(define-key minibuffer-local-completion-map [escape] 'minibuffer-keyboard-quit)
+;;;(define-key minibuffer-local-must-match-map [escape] 'minibuffer-keyboard-quit)
+;;;(define-key minibuffer-local-isearch-map [escape] 'minibuffer-keyboard-quit)
 
 ;;; nav tree
 (autoload 'dirtree "dirtree" "Add directory to tree view" t)
