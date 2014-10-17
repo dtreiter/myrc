@@ -59,6 +59,7 @@ re-downloaded in order to locate PACKAGE."
 
 (key-chord-define evil-insert-state-map "jk" 'evil-normal-state)
 (key-chord-define evil-visual-state-map "jk" 'evil-normal-state)
+(key-chord-define evil-normal-state-map ",m" 'save-buffer)
 
 (setq evil-search-module 'evil-search
       evil-want-C-u-scroll t
@@ -74,6 +75,7 @@ re-downloaded in order to locate PACKAGE."
 (define-key evil-normal-state-map (kbd "DEL") 'evil-scroll-page-up)
 (define-key evil-normal-state-map "f" 'ace-jump-char-mode)
 (define-key evil-visual-state-map "f" 'ace-jump-char-mode)
+(define-key evil-operator-state-map "f" 'ace-jump-char-mode)
 
 ;;; esc quits
 ;;;(define-key evil-normal-state-map [escape] 'keyboard-quit)
