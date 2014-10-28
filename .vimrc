@@ -69,6 +69,7 @@ syntax on         " syntax highlighting
 " allow backspacing over everything in insert mode
 set backspace=indent,eol,start
 
+set cursorline    " draw line underneath cursor
 set autoindent    " always set autoindenting on
 set copyindent    " copy the previous indentation on autoindenting
 set number        " always show line numbers
