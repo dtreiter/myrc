@@ -6,6 +6,13 @@ inoremap jk <esc>
 vnoremap jk <esc>
 cnoremap jk <esc>
 
+" Remap saving to mashing m,
+nnoremap m, :w<CR>
+nnoremap ,m :w<CR>
+
+" Drag lines down
+nnoremap K ddp
+
 " Allow scrolling with - and =
 nnoremap = M2kzz
 nnoremap - M2jzz
@@ -13,6 +20,15 @@ nnoremap - M2jzz
 " Quick buffer switching
 nnoremap ]b :bn<CR>
 nnoremap [b :bp<CR>
+" Tab switching
+nnoremap ]t gt<CR>
+nnoremap [t gT<CR>
+" Scroll sideways
+nnoremap ]z 15zl
+nnoremap [z 15zh
+
+" Make paste smart indent
+nnoremap p ]p
 
 " Remap Space to scroll down
 nnoremap <Space> <C-d>
@@ -88,8 +104,24 @@ set noswapfile
 " plugins
 execute pathogen#infect()
 
+" git blame shortcut
+nmap <silent> <leader>gl :Gblame<CR>
+nmap <silent> <leader>gs :Gstatus<CR>
+nmap <silent> <leader>gcm :Gcommit<CR>
+nmap <silent> <leader>gd :Gdiff<CR>
+
 " open NERDTree nav with <leader>t
 map <silent> <leader>t :NERDTreeToggle<CR> :NERDTreeMirror<CR>
 
 " remap find to use easymotion
 map f <Plug>(easymotion-s)
+
+" autocomplete with tab
+function! Tab_Or_Complete()
+  if col('.')>1 && strpart( getline('.'), col('.')-2, 3 ) =~ '^\w'
+    return "\<C-N>"
+  else
+    return "\<Tab>"
+  endif
+endfunction
+:inoremap <Tab> <C-R>=Tab_Or_Complete()<CR>
