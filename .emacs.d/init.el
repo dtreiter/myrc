@@ -57,6 +57,10 @@ re-downloaded in order to locate PACKAGE."
 (require 'key-chord)
 (key-chord-mode 1)
 
+;;; make ace jump only use lowercase
+(require 'cl)
+(setq ace-jump-mode-move-keys (loop for i from ?a to ?z collect i))
+
 (key-chord-define evil-insert-state-map "jk" 'evil-normal-state)
 (key-chord-define evil-visual-state-map "jk" 'evil-normal-state)
 (key-chord-define evil-normal-state-map ",m" 'save-buffer)
