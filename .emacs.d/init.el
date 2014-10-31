@@ -3,6 +3,12 @@
 (setq-default indicate-empty-lines t)
 (global-set-key [(control h)] 'delete-backward-char)
 
+;;; highlight line the cursor is on
+(global-hl-line-mode 1)
+(set-face-foreground 'hl-line nil)
+(set-face-foreground 'highlight nil)
+(set-face-background 'hl-line "black")
+
 ;;; remove menu bar
 (menu-bar-mode -1)
 
@@ -45,11 +51,6 @@ re-downloaded in order to locate PACKAGE."
 
 (package-initialize)
 
-;;; fuzzy file find
-;;; TODO: install grizzl
-(require 'projectile)
-;;;(setq projectile-completion-system 'grizzl)
-
 ;;; vim-like key bindings
 (require-package 'evil)
 (require 'evil)
@@ -61,6 +62,7 @@ re-downloaded in order to locate PACKAGE."
 (require 'cl)
 (setq ace-jump-mode-move-keys (loop for i from ?a to ?z collect i))
 
+;;; some custom key shortcuts
 (key-chord-define evil-insert-state-map "jk" 'evil-normal-state)
 (key-chord-define evil-visual-state-map "jk" 'evil-normal-state)
 (key-chord-define evil-normal-state-map ",m" 'save-buffer)
@@ -71,8 +73,10 @@ re-downloaded in order to locate PACKAGE."
 
 (global-set-key (kbd "`") 'execute-extended-command)
 (define-key evil-normal-state-map (kbd ";") 'evil-ex)
-(define-key evil-normal-state-map (kbd ",f") 'projectile-find-file)
+(define-key evil-normal-state-map (kbd ",f") 'ido-find-file)
 (define-key evil-normal-state-map (kbd ",ak") 'ack-and-a-half)
+(define-key evil-normal-state-map (kbd ",t") 'dirtree)
+(define-key evil-normal-state-map (kbd ",ev") '(lambda () (interactive) (find-file "~/.emacs.d/init.el")))
 (define-key evil-normal-state-map (kbd "]b") 'next-buffer)
 (define-key evil-normal-state-map (kbd "[b") 'previous-buffer)
 (define-key evil-normal-state-map (kbd "SPC") 'evil-scroll-page-down)
@@ -93,6 +97,8 @@ re-downloaded in order to locate PACKAGE."
 ;;; nav tree
 (autoload 'dirtree "dirtree" "Add directory to tree view" t)
 
-;;; nice file find
+;;; fuzzy file find
 (require 'ido)
 (ido-mode t)
+(setq ido-enable-flex-matching t)
+(setq ido-everywhere t)
