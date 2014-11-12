@@ -4,7 +4,7 @@
 
 
 ;;;### (autoloads (windata-display-buffer windata-restore-named-winconf
-;;;;;;  windata-name-winconf) "windata" "windata.el" (21453 36663
+;;;;;;  windata-name-winconf) "windata" "windata.el" (21603 51154
 ;;;;;;  0 0))
 ;;; Generated autoloads from windata.el
 
@@ -40,7 +40,7 @@ display the BUF.
 
 ;;;***
 
-;;;### (autoloads nil nil ("windata-pkg.el") (21453 36663 380691
+;;;### (autoloads nil nil ("windata-pkg.el") (21603 51154 999698
 ;;;;;;  0))
 
 ;;;***

@@ -1,8 +1,17 @@
 # Enable vi keys
-set -o vi
+#set -o vi
 # Remap ESC
-bind -m vi-insert '"kj": vi-movement-mode'
+#bind -m vi-insert '"kj": vi-movement-mode'
+
+# use emacs keybindings in bash
+set -o emacs
 
 # Aliases
+alias vi='vim'
 alias g='git'
 alias gs='git status'
+alias gd='git diff'
+alias gdh='git diff --cached'
+alias gl='git diff --cached'
+alias js='jobs'
+alias c='clear'
