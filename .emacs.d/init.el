@@ -1,6 +1,7 @@
 ;;; PACKAGES:
 ;;; melpa (should probably use melpa-stable)
 ;;; evil
+;;; evil-god-state
 ;;; acejump
 ;;; keychord
 ;;; helm
@@ -17,10 +18,8 @@
     (load-theme 'zenburn t) ;;; zenburn emacs theme
     (tool-bar-mode -1) ;;; only works in gui emacs. breaks in terminal
     (scroll-bar-mode -1)
+    (set-face-attribute 'default nil :height 150) ;;; make font larger (15pt)
 )
-
-;;; make font larger (14pt)
-(set-face-attribute 'default nil :height 140)
 
 ;;; show trailing whitespace
 (setq show-trailing-whitespace t)
@@ -74,9 +73,6 @@
     ;;; vim-like key bindings
     (require 'evil)
     (evil-mode t)
-    ;;; evil god mode
-    ;(evil-define-key 'normal global-map "," 'evil-execute-in-god-state)
-    ;(evil-define-key 'god global-map [escape] 'evil-god-state-bail)
     (require 'key-chord)
     (key-chord-mode 1)
     ;(require 'helm-projectile)
@@ -91,10 +87,12 @@
     (key-chord-define evil-insert-state-map "jk" 'evil-normal-state)
     (key-chord-define evil-visual-state-map "jk" 'evil-normal-state)
     (key-chord-define evil-normal-state-map ",m" 'save-buffer)
-    (key-chord-define evil-emacs-state-map "jk" 'god-mode)
     (key-chord-define-global "ji" (kbd "RET"))
+    (key-chord-define-global "hu" (kbd "TAB"))
     (key-chord-define-global "nj" (kbd "C-g"))
-    (key-chord-define-global "wq" 'other-window)
+    (key-chord-define-global "nh" (kbd "C-n"))
+    (key-chord-define-global "hy" (kbd "C-p"))
+    (key-chord-define-global "rf" 'other-window)
 
     (setq evil-search-module 'evil-search
 	  evil-want-C-u-scroll t
@@ -115,6 +113,9 @@
     (define-key evil-normal-state-map "f" 'ace-jump-char-mode)
     (define-key evil-visual-state-map "f" 'ace-jump-char-mode)
     (define-key evil-operator-state-map "f" 'ace-jump-char-mode)
+    ;;; evil god mode
+    (evil-define-key 'normal global-map "\\" 'evil-execute-in-god-state)
+    (evil-define-key 'god global-map [escape] 'evil-god-state-bail)
 
     ;;; nav tree
     (autoload 'dirtree "dirtree" "Add directory to tree view" t)
@@ -129,3 +130,15 @@
 )
 
 (init-my-packages) ;;; can be called manually if things get in the wrong state unexpectedly
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(helm-selection ((t (:background "black" :underline t)))))
