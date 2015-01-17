@@ -5,6 +5,7 @@ bind '"\C-p": "\C-[ k A"'
 bind '"\C-n": "\C-[ j A"'
 bind '"\C-e": "\C-[ A"'
 bind '"\C-a": "\C-[ I"'
+bind -x '"\C-l": clear;'
 # use simultaneous kj to enter normal mode
 bind -m vi-insert '"kj": vi-movement-mode'
 bind -m vi-insert '"jk": vi-movement-mode'
