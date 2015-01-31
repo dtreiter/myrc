@@ -8,4 +8,4 @@ cp .tmux.conf ~
 
 # emacs
 mv ~/.emacs.d ~/.emacs.d.old
-cp ./.emacs.d ~/.emacs.d
+cp -r ./.emacs.d ~/.emacs.d
