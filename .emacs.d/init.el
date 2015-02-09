@@ -61,6 +61,19 @@
   (setq mouse-sel-mode t)
 )
 
+;;; Quick window transposing
+(defun transpose-windows (arg)
+   "Transpose the buffers shown in two windows."
+   (interactive "p")
+   (let ((selector (if (>= arg 0) 'next-window 'previous-window)))
+     (while (/= arg 0)
+       (let ((this-win (window-buffer))
+             (next-win (window-buffer (funcall selector))))
+         (set-window-buffer (selected-window) next-win)
+         (set-window-buffer (funcall selector) this-win)
+         (select-window (funcall selector)))
+       (setq arg (if (plusp arg) (1- arg) (1+ arg))))))
+
 ;;; displays which function the cursor is in for the current buffer
 (which-func-mode 1)
 
@@ -103,6 +116,7 @@
     (key-chord-define-global "nh" (kbd "C-n"))
     (key-chord-define-global "hy" (kbd "C-p"))
     (key-chord-define-global "rf" 'other-window)
+    (key-chord-define-global "tg" 'transpose-windows)
     (key-chord-define-global "mn" 'other-frame)
 
     (setq evil-search-module 'evil-search
@@ -110,7 +124,7 @@
 	  evil-want-C-w-in-emacs-state t)
 
     ;;; custom evil mode shortcuts
-    (define-key evil-normal-state-map (kbd "[") 'evil-execute-in-god-state)
+    (define-key evil-normal-state-map (kbd "s") 'evil-execute-in-god-state)
     (evil-define-key 'god global-map [escape] 'evil-god-state-bail)
     (define-key evil-normal-state-map (kbd ";") 'helm-M-x)
     (define-key evil-normal-state-map (kbd ",f") 'projectile-find-file)
@@ -125,7 +139,7 @@
     (define-key evil-normal-state-map "f" 'ace-jump-word-mode)
     (define-key evil-visual-state-map "f" 'ace-jump-word-mode)
     (define-key evil-operator-state-map "f" 'ace-jump-word-mode)
-    (define-key evil-normal-state-map (kbd "s") 'evil-search-forward)
+    ;(define-key evil-normal-state-map (kbd "s") 'evil-search-forward)
     (define-key evil-normal-state-map (kbd "S") 'evil-search-backward)
     
     ;;; git shortcuts
