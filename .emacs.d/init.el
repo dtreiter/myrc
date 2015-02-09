@@ -13,10 +13,23 @@
 ;;; if gui emacs
 (when (display-graphic-p)
     (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
-    (load-theme 'zenburn t) ;;; zenburn emacs theme
+    ;(load-theme 'zenburn t) ;;; zenburn emacs theme
+    (load-theme 'tango t)
     (tool-bar-mode -1) ;;; only works in gui emacs. breaks in terminal
     (scroll-bar-mode -1)
     (set-face-attribute 'default nil :height 150) ;;; make font larger (15pt)
+)
+(when (not (display-graphic-p))
+    ;;; highlight line the cursor is on
+    (global-hl-line-mode 1)
+    (set-face-foreground 'hl-line nil)
+    (set-face-foreground 'highlight nil)
+    (set-face-background 'hl-line "black")
+
+    ;;; set helm selection color
+    (custom-set-variables)
+    (custom-set-faces
+	'(helm-selection ((t (:background "black" :underline t)))))
 )
 
 ;;; show trailing whitespace
@@ -26,12 +39,6 @@
 ;;; fix C-h backspace
 (global-set-key (kbd "C-h") 'delete-backward-char)
 (keyboard-translate ?\C-h ?\C-?)
-
-;;; highlight line the cursor is on
-(global-hl-line-mode 1)
-(set-face-foreground 'hl-line nil)
-(set-face-foreground 'highlight nil)
-(set-face-background 'hl-line "black")
 
 ;;; remove menu bar
 (menu-bar-mode -1)
@@ -161,15 +168,3 @@
 )
 
 (init-my-packages) ;;; can be called manually if things get in the wrong state unexpectedly
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(helm-selection ((t (:background "black" :underline t)))))
