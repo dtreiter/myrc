@@ -10,6 +10,8 @@
 ;;; zenburn for gui emacs
 ;;; dirtree
 
+(global-hl-line-mode 1) ;;; highlight line the cursor is on
+
 ;;; if gui emacs
 (when (display-graphic-p)
     (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
@@ -20,8 +22,6 @@
     (set-face-attribute 'default nil :height 150) ;;; make font larger (15pt)
 )
 (when (not (display-graphic-p))
-    ;;; highlight line the cursor is on
-    (global-hl-line-mode 1)
     (set-face-foreground 'hl-line nil)
     (set-face-foreground 'highlight nil)
     (set-face-background 'hl-line "black")
