@@ -6,11 +6,9 @@
 ;;; keychord
 ;;; helm
 ;;; projectile
-;;; helm-projectile
-;;; ack-and-a-half
+;;; ack-and-a-half (rgrep seems to do this?)
 ;;; zenburn for gui emacs
 ;;; dirtree
-;;; should add some sort of git client
 
 ;;; if gui emacs
 (when (display-graphic-p)
@@ -44,6 +42,11 @@
 (global-linum-mode t)
 (setq linum-format "%d ")
 
+;;; Configure whitespace for tcl and rvt files
+(add-to-list 'auto-mode-alist '("\\.\\(rvt\\|tcl\\)" . tcl-mode))
+(defun my-tcl-tabs () (setq c-basic-offset 4) (setq tab-width 4) (setq indent-tabs-mode t))
+(add-hook 'tcl-mode-hook 'my-tcl-tabs)
+
 ;;; enable mouse
 (unless window-system
   (require 'mouse)
@@ -58,6 +61,16 @@
   (setq mouse-sel-mode t)
 )
 
+;;; displays which function the cursor is in for the current buffer
+(which-func-mode 1)
+
+;;; enable org-mode and recommended shortcuts
+(require 'org)
+(define-key global-map "\C-cl" 'org-store-link)
+(define-key global-map "\C-ca" 'org-agenda)
+;(setq org-log-done 'note)
+(setq org-log-done t)
+
 ;;; add melpa to package list
 (require 'package)
 (add-to-list 'package-archives
@@ -69,15 +82,13 @@
     ;;; enable autocomplete
     (global-auto-complete-mode t)
     ;;; fuzzy file find
-    ;(require 'projectile)
+    (require 'projectile)
+    (projectile-global-mode)
     ;;; vim-like key bindings
     (require 'evil)
     (evil-mode t)
     (require 'key-chord)
     (key-chord-mode 1)
-    ;(require 'helm-projectile)
-    ;(projectile-global-mode)
-    ;(setq projectile-completion-system 'helm)
 
     ;;; make ace jump only use lowercase
     ;;; (require 'cl)
@@ -88,34 +99,40 @@
     (key-chord-define evil-visual-state-map "jk" 'evil-normal-state)
     (key-chord-define evil-normal-state-map ",m" 'save-buffer)
     (key-chord-define-global "ji" (kbd "RET"))
-    (key-chord-define-global "hu" (kbd "TAB"))
     (key-chord-define-global "nj" (kbd "C-g"))
     (key-chord-define-global "nh" (kbd "C-n"))
     (key-chord-define-global "hy" (kbd "C-p"))
     (key-chord-define-global "rf" 'other-window)
+    (key-chord-define-global "mn" 'other-frame)
 
     (setq evil-search-module 'evil-search
 	  evil-want-C-u-scroll t
 	  evil-want-C-w-in-emacs-state t)
 
     ;;; custom evil mode shortcuts
+    (define-key evil-normal-state-map (kbd "[") 'evil-execute-in-god-state)
+    (evil-define-key 'god global-map [escape] 'evil-god-state-bail)
     (define-key evil-normal-state-map (kbd ";") 'helm-M-x)
-    (define-key evil-normal-state-map (kbd ",f") 'find-file)
+    (define-key evil-normal-state-map (kbd ",f") 'projectile-find-file)
     (define-key evil-normal-state-map (kbd ",ak") 'ack-and-a-half)
     (define-key evil-normal-state-map (kbd ",t") 'dirtree)
     (define-key evil-normal-state-map (kbd ",b") 'helm-buffers-list)
     (define-key evil-normal-state-map (kbd ",ev") '(lambda () (interactive) (find-file "~/.emacs.d/init.el")))
-    (define-key evil-normal-state-map (kbd "]b") 'next-buffer)
-    (define-key evil-normal-state-map (kbd "gx") 'helm-M-x)
-    (define-key evil-normal-state-map (kbd "[b") 'previous-buffer)
+    ;(define-key evil-normal-state-map (kbd ",n") 'next-buffer)
+    ;(define-key evil-normal-state-map (kbd ",p") 'previous-buffer)
     (define-key evil-normal-state-map (kbd "SPC") 'evil-scroll-page-down)
     (define-key evil-normal-state-map (kbd "DEL") 'evil-scroll-page-up)
-    (define-key evil-normal-state-map "f" 'ace-jump-char-mode)
-    (define-key evil-visual-state-map "f" 'ace-jump-char-mode)
-    (define-key evil-operator-state-map "f" 'ace-jump-char-mode)
-    ;;; evil god mode
-    (evil-define-key 'normal global-map "\\" 'evil-execute-in-god-state)
-    (evil-define-key 'god global-map [escape] 'evil-god-state-bail)
+    (define-key evil-normal-state-map "f" 'ace-jump-word-mode)
+    (define-key evil-visual-state-map "f" 'ace-jump-word-mode)
+    (define-key evil-operator-state-map "f" 'ace-jump-word-mode)
+    (define-key evil-normal-state-map (kbd "s") 'evil-search-forward)
+    (define-key evil-normal-state-map (kbd "S") 'evil-search-backward)
+    
+    ;;; git shortcuts
+    (define-key evil-normal-state-map (kbd ",gl") '(lambda () (interactive) (shell-command "git log -80")))
+    (define-key evil-normal-state-map (kbd ",gs") '(lambda () (interactive) (shell-command "git status")))
+    (define-key evil-normal-state-map (kbd ",gd") '(lambda () (interactive) (shell-command "git diff")))
+    (define-key evil-normal-state-map (kbd ",gh") '(lambda () (interactive) (shell-command "git diff --cached")))
 
     ;;; nav tree
     (autoload 'dirtree "dirtree" "Add directory to tree view" t)
