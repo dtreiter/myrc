@@ -7,5 +7,5 @@ cp -r .vim* ~
 cp .tmux.conf ~
 
 # emacs
-mv ~/.emacs.d ~/.emacs.d.old
+#mv ~/.emacs.d ~/.emacs.d.old
 cp -r ./.emacs.d ~/.emacs.d

@@ -27,7 +27,6 @@
     (set-face-background 'hl-line "black")
 
     ;;; set helm selection color
-    (custom-set-variables)
     (custom-set-faces
 	'(helm-selection ((t (:background "black" :underline t)))))
 )
@@ -48,6 +47,8 @@
 (require 'linum)
 (global-linum-mode t)
 (setq linum-format "%d ")
+
+(column-number-mode t)
 
 ;;; Configure whitespace for tcl and rvt files
 (add-to-list 'auto-mode-alist '("\\.\\(rvt\\|tcl\\)" . tcl-mode))
@@ -90,6 +91,10 @@
 (define-key global-map "\C-ca" 'org-agenda)
 ;(setq org-log-done 'note)
 (setq org-log-done t)
+
+;;; Specify agenda files
+;(custom-set-variables
+; '(org-agenda-files (quote ("~/ideas.org"))))
 
 ;;; add melpa to package list
 (require 'package)
