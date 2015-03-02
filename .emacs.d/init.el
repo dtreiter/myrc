@@ -43,6 +43,11 @@
 (menu-bar-mode -1)
 (setq inhibit-startup-message t)
 
+;;; make emacs confirm before exiting
+(add-hook 'kill-emacs-query-functions
+    (lambda () (y-or-n-p "Do you really want to exit Emacs? "))
+    'append)
+
 ;;; enable line numbers
 (require 'linum)
 (global-linum-mode t)
