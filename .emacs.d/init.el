@@ -158,12 +158,38 @@
     (define-key evil-operator-state-map "f" 'ace-jump-word-mode)
     ;(define-key evil-normal-state-map (kbd "s") 'evil-search-forward)
     (define-key evil-normal-state-map (kbd "S") 'evil-search-backward)
-    
-    ;;; git shortcuts
-    (define-key evil-normal-state-map (kbd ",gl") '(lambda () (interactive) (shell-command "git log -80")))
-    (define-key evil-normal-state-map (kbd ",gs") '(lambda () (interactive) (shell-command "git status")))
-    (define-key evil-normal-state-map (kbd ",gd") '(lambda () (interactive) (shell-command "git diff")))
-    (define-key evil-normal-state-map (kbd ",gh") '(lambda () (interactive) (shell-command "git diff --cached")))
+
+    ;;; git wrappers
+    (defun git-log ()
+      (interactive)
+      (shell-command "git log -80"))
+
+    (defun git-show ()
+      (interactive)
+      (shell-command (concat "git show " (thing-at-point 'word))))
+
+    (defun git-blame ()
+      (interactive)
+      (shell-command (concat "git blame " (buffer-file-name))))
+
+    (defun git-status ()
+      (interactive)
+      (shell-command "git status"))
+
+    (defun git-diff ()
+      (interactive)
+      (shell-command "git diff"))
+
+    (defun git-diff-cached ()
+      (interactive)
+      (shell-command "git diff --cached"))
+
+    (define-key evil-normal-state-map (kbd ",gl") 'git-log)
+    (define-key evil-normal-state-map (kbd ",gw") 'git-show)
+    (define-key evil-normal-state-map (kbd ",gb") 'git-blame)
+    (define-key evil-normal-state-map (kbd ",gs") 'git-status)
+    (define-key evil-normal-state-map (kbd ",gd") 'git-diff)
+    (define-key evil-normal-state-map (kbd ",gh") 'git-diff-cached)
 
     ;;; nav tree
     (autoload 'dirtree "dirtree" "Add directory to tree view" t)
