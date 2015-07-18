@@ -261,7 +261,7 @@ layers configuration."
     "os" 'org-schedule
     "oc" 'org-cycle
     "or" 'org-ctrl-c-ctrl-c
-    "d"  'evil-scroll-page-down
+    "d"  'evil-scroll-page-up
     )
 )
 
