@@ -39,7 +39,7 @@
    ;; If non-nil spacemacs will delete any orphan packages, i.e. packages that
    ;; are declared in a layer which is not a member of
    ;; the list `dotspacemacs-configuration-layers'
-   dotspacemacs-delete-orphan-packages t))
+   dotspacemacs-delete-orphan-packages nil))
 
 (defun dotspacemacs/init ()
   "Initialization function.
@@ -134,7 +134,7 @@ before layers configuration."
    ;; Transparency can be toggled through `toggle-transparency'.
    dotspacemacs-inactive-transparency 90
    ;; If non nil unicode symbols are displayed in the mode line.
-   dotspacemacs-mode-line-unicode-symbols t
+   dotspacemacs-mode-line-unicode-symbols nil
    ;; If non nil smooth scrolling (native-scrolling) is enabled. Smooth
    ;; scrolling overrides the default behavior of Emacs which recenters the
    ;; point when it reaches the top or bottom of the screen.
@@ -187,8 +187,15 @@ layers configuration."
   (define-key evil-visual-state-map "f" 'ace-jump-word-mode)
   (define-key evil-operator-state-map "f" 'ace-jump-word-mode)
 
+  ;; Move through wrapped lines
+  (define-key evil-normal-state-map (kbd "j") 'evil-next-visual-line)
+  (define-key evil-normal-state-map (kbd "k") 'evil-previous-visual-line)
+
+  ;; Make s enter custom view-mode
+  (define-key evil-normal-state-map (kbd "s") 'me/view-mode)
+
   ;; Configure whitespace for tcl and rvt files
-  (add-to-list 'auto-mode-alist '("\\.\\(rvt\\|tcl\\)" . tcl-mode))
+  (add-to-list 'auto-mode-alist '("\\.\\(rvt\\|tcl\\|test\\)" . tcl-mode))
   (defun my-tcl-tabs ()
     (setq c-basic-offset 4)
     (setq tab-width 4)
@@ -196,6 +203,13 @@ layers configuration."
     (setq default-tab-width 4))
   (add-hook 'tcl-mode-hook 'my-tcl-tabs)
   (add-hook 'js-mode-hook 'my-tcl-tabs)
+
+  ;; Add clear function to eshell
+  (defun eshell/clear ()
+    "Clear the eshell buffer."
+    (let ((inhibit-read-only t))
+      (erase-buffer)
+      (eshell-send-input)))
 
   (require 'org)
   (define-key global-map "\C-cl" 'org-store-link)
@@ -243,26 +257,60 @@ layers configuration."
     (interactive)
     (shell-command (concat "git checkout " (thing-at-point 'word))))
 
+  (defun me/yank-to-register (beg end register)
+    "Yank a selection to a given register"
+    (interactive "r\nsRegister: ")
+    (when (evil-visual-state-p)
+      (evil-exit-visual-state)
+      (let ((selection (regexp-quote (buffer-substring-no-properties beg end))))
+        (evil-set-register (string-to-char register) selection))))
+
+  (defun me/view-mode ()
+    "Enable view-mode from evil"
+    (interactive)
+    (evil-emacs-state)
+    (let ((current-prefix-arg '(4)))
+      (call-interactively 'view-mode)))
+
+  (defun me/view-mode-config ()
+    "Make view-mode exit fit the spacemacs workflow"
+    (define-key view-mode-map (kbd "q")
+      (lambda ()
+        (interactive)
+        (View-exit)
+        (evil-exit-emacs-state)))
+    (define-key view-mode-map (kbd "/") 'isearch-forward-regexp))
+
+  (add-hook 'view-mode-hook #'me/view-mode-config)
+
   ;; Custom leader bindings
   (evil-leader/set-key
-    "<SPC>" 'evil-scroll-page-down
-    ";"  'helm-M-x
-    "fw" 'ido-write-file
-    "gl" 'git-log
-    "gw" 'git-show
-    "gb" 'git-blame
-    "gs" 'git-status
-    "gd" 'git-diff
-    "gh" 'git-diff-cached
-    "oa" 'org-agenda
-    "oi" 'org-clock-in
-    "oo" 'org-clock-out
-    "ot" 'org-todo
-    "os" 'org-schedule
-    "oc" 'org-cycle
-    "or" 'org-ctrl-c-ctrl-c
-    "d"  'evil-scroll-page-up
-    )
+    "<SPC>" #'evil-scroll-page-down
+    ";"  #'helm-M-x
+    "d"  #'evil-scroll-page-up
+    "ff" #'ido-find-file
+    "fw" #'ido-write-file
+    "gl" #'git-log
+    "gw" #'git-show
+    "gb" #'git-blame
+    "gs" #'git-status
+    "gd" #'git-diff
+    "gh" #'git-diff-cached
+    "ir" #'indent-region
+    "sr" #'grep-graceful
+    "oa" #'org-agenda
+    "oi" #'org-clock-in
+    "oo" #'org-clock-out
+    "ot" #'org-todo
+    "os" #'org-schedule
+    "oc" #'org-cycle
+    "or" #'org-ctrl-c-ctrl-c
+    "pf" #'search-filetree ; Override projectile for use on graceful
+    "st" #'helm-etags-select
+    "yr" #'me/yank-to-register
+    "bv" #'me/view-mode
+    "ev" (lambda () (interactive) (find-file "~/.spacemacs"))
+  )
 )
 
 ;; Do not write anything past this comment. This is where Emacs will
