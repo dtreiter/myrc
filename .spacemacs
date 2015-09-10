@@ -192,7 +192,7 @@ layers configuration."
   (define-key evil-normal-state-map (kbd "k") 'evil-previous-visual-line)
 
   ;; Make s enter custom view-mode
-  (define-key evil-normal-state-map (kbd "s") 'me/view-mode)
+  (define-key evil-normal-state-map (kbd "s") 'me/view-mode-enable)
 
   ;; Configure whitespace for tcl and rvt files
   (add-to-list 'auto-mode-alist '("\\.\\(rvt\\|tcl\\|test\\)" . tcl-mode))
@@ -265,28 +265,74 @@ layers configuration."
       (let ((selection (regexp-quote (buffer-substring-no-properties beg end))))
         (evil-set-register (string-to-char register) selection))))
 
-  (defun me/view-mode ()
+  (defun me/view-mode-enable ()
     "Enable view-mode from evil"
     (interactive)
     (evil-emacs-state)
     (let ((current-prefix-arg '(4)))
       (call-interactively 'view-mode)))
 
+  (defun me/layout-double-columns ()
+    "Set the layout to double columns."
+    (interactive)
+    (delete-other-windows)
+    (spacemacs/alternate-buffer)
+    (split-window-right)
+    (spacemacs/alternate-buffer)
+    (balance-windows))
+
   (defun me/view-mode-config ()
-    "Make view-mode exit fit the spacemacs workflow"
+    "Add lots of custom shortcuts to view-mode"
     (define-key view-mode-map (kbd "q")
       (lambda ()
         (interactive)
         (View-exit)
         (evil-exit-emacs-state)))
+    (define-key view-mode-map (kbd "a") #'spacemacs/alternate-buffer)
+    (define-key view-mode-map (kbd "b") #'evil-scroll-page-up)
+    (define-key view-mode-map (kbd "c") #'delete-window)
+    (define-key view-mode-map (kbd "d") #'evil-scroll-down)
+    (define-key view-mode-map (kbd "e") #'evil-goto-line)
+    (define-key view-mode-map (kbd "f") #'evil-scroll-page-down)
+    (define-key view-mode-map (kbd "F") #'ace-jump-word-mode)
+    (define-key view-mode-map (kbd "g") #'evil-goto-first-line)
+    (define-key view-mode-map (kbd "G") #'spacemacs/git-micro-state)
+    (define-key view-mode-map (kbd "i") #'evil-jumper/forward)
+    (define-key view-mode-map (kbd "l") #'helm-buffers-list)
+    (define-key view-mode-map (kbd "m") #'evil-window-middle)
+    (define-key view-mode-map (kbd "n") #'spacemacs/next-useful-buffer)
+    (define-key view-mode-map (kbd "o") #'evil-jumper/backward)
+    (define-key view-mode-map (kbd "p") #'spacemacs/previous-useful-buffer)
+    (define-key view-mode-map (kbd "r") #'rotate-windows)
+    (define-key view-mode-map (kbd "s") #'helm-swoop)
+    (define-key view-mode-map (kbd "S") #'split-window-below-and-focus)
+    (define-key view-mode-map (kbd "t") #'evil-scroll-line-to-top)
+    (define-key view-mode-map (kbd "u") #'evil-scroll-up)
+    (define-key view-mode-map (kbd "v") #'split-window-right-and-focus)
+    (define-key view-mode-map (kbd "w") #'other-window)
+    (define-key view-mode-map (kbd "y") #'other-frame)
+    (define-key view-mode-map (kbd "z") #'evil-scroll-line-to-center)
     (define-key view-mode-map (kbd "/") 'isearch-forward-regexp))
 
   (add-hook 'view-mode-hook #'me/view-mode-config)
+
+  (spacemacs|define-micro-state git
+    :doc "Git micro-state"
+    :execute-binding-on-enter t
+    :evil-leader "gg"
+    :bindings
+    ("b" git-blame)
+    ("d" git-diff)
+    ("h" git-diff-cached)
+    ("l" git-log)
+    ("s" git-status)
+    ("w" git-show))
 
   ;; Custom leader bindings
   (evil-leader/set-key
     "<SPC>" #'evil-scroll-page-down
     ";"  #'helm-M-x
+    "bv" #'me/view-mode-enable
     "d"  #'evil-scroll-page-up
     "ff" #'ido-find-file
     "fw" #'ido-write-file
@@ -298,6 +344,7 @@ layers configuration."
     "gh" #'git-diff-cached
     "ir" #'indent-region
     "sr" #'grep-graceful
+    "mx" #'execute-extended-command
     "oa" #'org-agenda
     "oi" #'org-clock-in
     "oo" #'org-clock-out
@@ -308,14 +355,28 @@ layers configuration."
     "pf" #'search-filetree ; Override projectile for use on graceful
     "st" #'helm-etags-select
     "yr" #'me/yank-to-register
-    "bv" #'me/view-mode
+    "w2" #'my-own/layout-double-columns
     "ev" (lambda () (interactive) (find-file "~/.spacemacs"))
   )
 )
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
+(custom-set-variables
+  ;;; Specify agenda files
+  ;'(org-agenda-files (quote ("~/org"))))
 
-;;; Specify agenda files
-;(custom-set-variables
- ;'(org-agenda-files (quote ("~/org"))))
+ ; Tell execute-extended-command not to use helm
+ '(helm-completing-read-handlers-alist
+   (quote
+    ((describe-function . helm-completing-read-symbols)
+     (describe-variable . helm-completing-read-symbols)
+     (debug-on-entry . helm-completing-read-symbols)
+     (find-function . helm-completing-read-symbols)
+     (trace-function . helm-completing-read-symbols)
+     (trace-function-foreground . helm-completing-read-symbols)
+     (trace-function-background . helm-completing-read-symbols)
+     (find-tag . helm-completing-read-with-cands-in-buffer)
+     (ffap-alternate-file)
+     (tmm-menubar)
+     (execute-extended-command)))))
