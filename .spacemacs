@@ -349,8 +349,8 @@ layers configuration."
     "gs" #'git-status
     "gd" #'git-diff
     "gh" #'git-diff-cached
+    "ha" #'helm-apropos
     "ir" #'indent-region
-    "sr" #'grep-graceful
     "mx" #'execute-extended-command
     "oa" #'org-agenda
     "oi" #'org-clock-in
@@ -359,11 +359,11 @@ layers configuration."
     "os" #'org-schedule
     "oc" #'org-cycle
     "or" #'org-ctrl-c-ctrl-c
-    "pf" #'search-filetree ; Override projectile for use on graceful
     "st" #'helm-etags-select
     "yr" #'me/yank-to-register
-    "w2" #'my-own/layout-double-columns
-    "ev" (lambda () (interactive) (find-file "~/.spacemacs"))
+    "ys" #'yas/insert-snippet
+    "wr" #'rotate-windows
+    "w2" #'me/layout-double-columns
   )
 )
 
