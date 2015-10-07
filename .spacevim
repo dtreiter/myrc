@@ -1,0 +1,117 @@
+"NeoBundle Scripts-----------------------------
+if has('vim_starting')
+  if &compatible
+    set nocompatible
+  endif
+
+  " Required:
+  set runtimepath+=/Users/daniel.reiter/.vim/bundle/neobundle.vim/
+endif
+
+" Required:
+call neobundle#begin(expand('/Users/daniel.reiter/.vim/bundle'))
+
+" Let NeoBundle manage NeoBundle
+" Required:
+NeoBundleFetch 'Shougo/neobundle.vim'
+
+" Add or remove your Bundles here:
+NeoBundle 'Shougo/unite.vim'
+
+" Required:
+call neobundle#end()
+
+" Required:
+filetype plugin indent on
+
+" If there are uninstalled bundles found on startup,
+" this will conveniently prompt you to install them.
+NeoBundleCheck
+"End NeoBundle Scripts-------------------------
+
+" Make the leader key not timeout
+set notimeout
+set ttimeout
+
+set hidden
+syntax on
+set backspace=indent,eol,start
+set cursorline
+set autoindent
+set copyindent
+set number
+set shiftwidth=2
+set shiftround
+set showmatch
+set ignorecase
+set smartcase
+set smarttab
+set expandtab
+"set hlsearch
+set incsearch
+set history=1000
+set undolevels=1000
+set wildignore=*.swp,*.bak
+set visualbell
+set noerrorbells
+
+set nobackup
+set noswapfile
+
+" Custom mappings
+let mapleader = "\<Space>"
+
+" Files
+nnoremap <Leader>fs :w<CR>
+
+" Windows
+nnoremap <Leader>ws <C-w>s
+nnoremap <Leader>wv <C-w>v
+nnoremap <Leader>wc <C-w>c
+nnoremap <Leader>wh <C-w>h
+nnoremap <Leader>wj <C-w>j
+nnoremap <Leader>wk <C-w>k
+nnoremap <Leader>wl <C-w>l
+nnoremap <Leader>wR <C-w><C-r>
+
+" Buffer
+nnoremap <Leader>bc :ls<CR>:bd!
+nnoremap <Leader>bk :b#<CR>:bd#<CR>
+nnoremap <Leader>bp :bp<CR>
+nnoremap <Leader>bn :bn<CR>
+nnoremap <Leader>bs :ls<CR>:b
+nnoremap <Leader>bb :Unite -start-insert buffer<CR>
+
+" Search
+nnoremap <Leader>sa :call NewScratchBuffer('ack.vim')<CR>:r! ack 
+"nnoremap <Leader>ff :call NewScratchBuffer('find.vim')<CR>:r! find . -type f \| grep 
+nnoremap <Leader>fr :Unite -start-insert file_rec<CR>
+nnoremap <Leader>ff :Unite -start-insert file<CR>
+nnoremap <Leader>gl :call NewScratchBuffer('git.vim')<CR>:r! git log -80<CR>gg
+
+" Quitting
+nnoremap <Leader>qq :qa<CR>
+nnoremap <Leader>qQ :qa!<CR>
+
+function MakeSplitBelow()
+  split
+  execute "normal \<C-w>j"
+endfunction
+
+" Change to and delete the contents of a buffer.
+" If it doesn't exist, it creates one.
+function ChangeTo(name)
+  if bufexists(a:name)
+    execute "buffer" a:name
+    execute "normal ggdG"
+  else
+    enew
+    execute "file" a:name
+  endif
+endfunction
+
+function NewScratchBuffer(name)
+  call MakeSplitBelow()
+  call ChangeTo(a:name)
+  setlocal buftype=nofile
+endfunction
