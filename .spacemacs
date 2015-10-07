@@ -173,7 +173,7 @@ layers configuration."
 
   ;; Line numbers
   (setq linum-format "%d ")
-  (global-linum-mode)
+  (spacemacs/toggle-line-numbers)
 
   ;; Turn off persistent search highlighting
   (global-evil-search-highlight-persist -1)
@@ -183,9 +183,15 @@ layers configuration."
   ;; Turn off default text in helm swoop
   (setq helm-swoop-pre-input-function (lambda () nil))
 
+  ;; Make ace-jump scope more limited. This results in fewer candidates.
+  (setq ace-jump-mode-scope 'window)
+
   (define-key evil-normal-state-map "f" 'ace-jump-word-mode)
   (define-key evil-visual-state-map "f" 'ace-jump-word-mode)
   (define-key evil-operator-state-map "f" 'ace-jump-word-mode)
+
+  ;; Insert snippets easily from evil-insert-state
+  (define-key evil-insert-state-map (kbd "C-s") #'yas/insert-snippet)
 
   ;; Move through wrapped lines
   (define-key evil-normal-state-map (kbd "j") 'evil-next-visual-line)
@@ -282,7 +288,7 @@ layers configuration."
     (balance-windows))
 
   (defun me/view-mode-config ()
-    "Add lots of custom shortcuts to view-mode"
+    "Make view-mode exit fit the spacemacs workflow"
     (define-key view-mode-map (kbd "q")
       (lambda ()
         (interactive)
@@ -312,7 +318,8 @@ layers configuration."
     (define-key view-mode-map (kbd "w") #'other-window)
     (define-key view-mode-map (kbd "y") #'other-frame)
     (define-key view-mode-map (kbd "z") #'evil-scroll-line-to-center)
-    (define-key view-mode-map (kbd "/") 'isearch-forward-regexp))
+    (define-key view-mode-map (kbd ";") #'helm-M-x)
+    (define-key view-mode-map (kbd "/") #'isearch-forward-regexp))
 
   (add-hook 'view-mode-hook #'me/view-mode-config)
 
