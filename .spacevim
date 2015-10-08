@@ -34,6 +34,7 @@ set ttimeout
 noremap! <C-g> <Esc>
 
 " Files
+nnoremap <Leader>ff :e 
 nnoremap <Leader>fs :w<CR>
 nnoremap <Leader>fw :w<Space>
 
@@ -56,7 +57,7 @@ nnoremap <Leader>bp :bp<CR>
 
 " Search
 nnoremap <Leader>sa :call NewScratchBuffer('ack.vim')<CR>:r! ack 
-nnoremap <Leader>ff :call NewScratchBuffer('find.vim')<CR>:r! find . -type f \| grep 
+nnoremap <Leader>pf :call NewScratchBuffer('find.vim')<CR>:r! find . -type f \| grep 
 nnoremap <Leader>gd :call NewScratchBuffer('git.vim')<CR>:r! git diff<CR>gg
 nnoremap <Leader>gh :call NewScratchBuffer('git.vim')<CR>:r! git diff --cached<CR>gg
 nnoremap <Leader>gl :call NewScratchBuffer('git.vim')<CR>:r! git log -80<CR>gg
@@ -85,7 +86,7 @@ function ChangeTo(name)
 endfunction
 
 function NewScratchBuffer(name)
-  call MakeSplitBelow()
+  call MakeSplitBelow() " TODO Only make split if a buffer with 'name.vim' is not currently visible
   call ChangeTo(a:name)
   setlocal buftype=nofile
 endfunction
