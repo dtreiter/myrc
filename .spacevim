@@ -1,40 +1,7 @@
-"NeoBundle Scripts-----------------------------
-if has('vim_starting')
-  if &compatible
-    set nocompatible
-  endif
-
-  " Required:
-  set runtimepath+=/Users/daniel.reiter/.vim/bundle/neobundle.vim/
-endif
-
-" Required:
-call neobundle#begin(expand('/Users/daniel.reiter/.vim/bundle'))
-
-" Let NeoBundle manage NeoBundle
-" Required:
-NeoBundleFetch 'Shougo/neobundle.vim'
-
-" Add or remove your Bundles here:
-NeoBundle 'Shougo/unite.vim'
-
-" Required:
-call neobundle#end()
-
-" Required:
+" Misc settings
 filetype plugin indent on
-
-" If there are uninstalled bundles found on startup,
-" this will conveniently prompt you to install them.
-NeoBundleCheck
-"End NeoBundle Scripts-------------------------
-
-" Make the leader key not timeout
-set notimeout
-set ttimeout
-
-set hidden
 syntax on
+set hidden
 set backspace=indent,eol,start
 set cursorline
 set autoindent
@@ -47,52 +14,59 @@ set ignorecase
 set smartcase
 set smarttab
 set expandtab
-"set hlsearch
 set incsearch
 set history=1000
 set undolevels=1000
 set wildignore=*.swp,*.bak
 set visualbell
 set noerrorbells
-
 set nobackup
 set noswapfile
 
-" Custom mappings
+" Map leader to <Space>
 let mapleader = "\<Space>"
+
+" Make the leader key not timeout
+set notimeout
+set ttimeout
+
+" Map <C-g> to <esc> since it's used as keyboard-quit in spacemacs
+noremap! <C-g> <Esc>
 
 " Files
 nnoremap <Leader>fs :w<CR>
+nnoremap <Leader>fw :w<Space>
 
 " Windows
-nnoremap <Leader>ws <C-w>s
-nnoremap <Leader>wv <C-w>v
+nnoremap <Leader>wR <C-w><C-r>
 nnoremap <Leader>wc <C-w>c
 nnoremap <Leader>wh <C-w>h
 nnoremap <Leader>wj <C-w>j
 nnoremap <Leader>wk <C-w>k
 nnoremap <Leader>wl <C-w>l
-nnoremap <Leader>wR <C-w><C-r>
+nnoremap <Leader>ws <C-w>s
+nnoremap <Leader>wv <C-w>v
 
 " Buffer
+nnoremap <Leader>bb :ls<CR>:b
 nnoremap <Leader>bc :ls<CR>:bd!
 nnoremap <Leader>bk :b#<CR>:bd#<CR>
-nnoremap <Leader>bp :bp<CR>
 nnoremap <Leader>bn :bn<CR>
-nnoremap <Leader>bs :ls<CR>:b
-nnoremap <Leader>bb :Unite -start-insert buffer<CR>
+nnoremap <Leader>bp :bp<CR>
 
 " Search
 nnoremap <Leader>sa :call NewScratchBuffer('ack.vim')<CR>:r! ack 
-"nnoremap <Leader>ff :call NewScratchBuffer('find.vim')<CR>:r! find . -type f \| grep 
-nnoremap <Leader>fr :Unite -start-insert file_rec<CR>
-nnoremap <Leader>ff :Unite -start-insert file<CR>
+nnoremap <Leader>ff :call NewScratchBuffer('find.vim')<CR>:r! find . -type f \| grep 
+nnoremap <Leader>gd :call NewScratchBuffer('git.vim')<CR>:r! git diff<CR>gg
+nnoremap <Leader>gh :call NewScratchBuffer('git.vim')<CR>:r! git diff --cached<CR>gg
 nnoremap <Leader>gl :call NewScratchBuffer('git.vim')<CR>:r! git log -80<CR>gg
+nnoremap <Leader>gs :call NewScratchBuffer('git.vim')<CR>:r! git status<CR>gg
 
 " Quitting
 nnoremap <Leader>qq :qa<CR>
 nnoremap <Leader>qQ :qa!<CR>
 
+" Utility functions for reading commands into a horizontal split
 function MakeSplitBelow()
   split
   execute "normal \<C-w>j"
