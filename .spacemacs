@@ -245,7 +245,7 @@ layers configuration."
   ;; TODO buffer-file-name doesn't work over tramp
   (defun git-blame ()
     (interactive)
-    (shell-command (concat "git --no-pager blame " (buffer-file-name))))
+    (shell-command (concat "git --no-pager blame " (buffer-name))))
 
   (defun git-status ()
     (interactive)
@@ -262,6 +262,10 @@ layers configuration."
   (defun git-checkout ()
     (interactive)
     (shell-command (concat "git checkout " (thing-at-point 'word))))
+
+  (defun me/load-work ()
+    (interactive)
+    (load-file "~/.work.el"))
 
   (defun me/yank-to-register (beg end register)
     "Yank a selection to a given register"
