@@ -354,7 +354,7 @@ layers configuration."
     "gd" #'git-diff
     "gh" #'git-diff-cached
     "ha" #'helm-apropos
-    "ir" #'indent-region
+    "ir" #'spacemacs/indent-region-or-buffer
     "mx" #'execute-extended-command
     "oa" #'org-agenda
     "oi" #'org-clock-in
