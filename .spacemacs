@@ -28,6 +28,7 @@ values."
      emacs-lisp
      git
      ;; markdown
+     ;;javascript
      org
      ;; (shell :variables
      ;;        shell-default-height 30
@@ -215,6 +216,9 @@ layers configuration. You are free to put any user code."
   (define-key evil-visual-state-map   "f" #'evil-avy-goto-word-or-subword-1)
   (define-key evil-operator-state-map "f" #'evil-avy-goto-word-or-subword-1)
 
+  ;; Disable search highlight persistence
+  (global-evil-search-highlight-persist -1)
+
   ;; Insert snippets easily from evil-insert-state
   (define-key evil-insert-state-map (kbd "C-s") #'yas/insert-snippet)
 
@@ -348,7 +352,7 @@ layers configuration. You are free to put any user code."
     "st" #'helm-etags-select
     "yr" #'me/yank-to-register
     "ys" #'yas/insert-snippet
-    "wr" #'rotate-windows
+    "wr" #'spacemacs/rotate-windows
     "w2" #'me/layout-double-columns
   )
 )
