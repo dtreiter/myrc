@@ -1,17 +1,12 @@
-# use vi keybindings in bash
+# Use vi keybindings in bash
 set -o vi
-# but keep C-p C-n from emacs
+
+# But keep C-p C-n from emacs
 bind '"\C-p": "\C-[ k A"'
 bind '"\C-n": "\C-[ j A"'
 bind '"\C-e": "\C-[ A"'
 bind '"\C-a": "\C-[ I"'
 bind -x '"\C-l": clear;'
-# use simultaneous kj to enter normal mode
-bind -m vi-insert '"kj": vi-movement-mode'
-bind -m vi-insert '"jk": vi-movement-mode'
-
-# opt in to using ** in globs on newer versions of bash
-#shopt -s globstar
 
 # Aliases
 alias vi='vim'
@@ -19,6 +14,14 @@ alias g='git'
 alias gs='git status'
 alias gd='git diff'
 alias gdh='git diff --cached'
-alias js='jobs'
-alias ps='ps aux'
-alias c='clear'
+alias r='grep'
+
+# Push the current git branch
+function gpusho {
+  git push origin `g branch | grep \* | cut -f2 -d" "`
+}
+
+# Simple shorter wrapper around find
+function f {
+  find $1 -type f
+}
