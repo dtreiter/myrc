@@ -1,5 +1,5 @@
 # Use vi keybindings in bash
-set -o vi
+#set -o vi # instead specify vi keys in .inputrc
 
 # But keep C-p C-n from emacs
 bind '"\C-p": "\C-[ k A"'
@@ -24,4 +24,48 @@ function gpusho {
 # Simple shorter wrapper around find
 function f {
   find $1 -type f
+}
+
+# Fast changing of directories
+function c() {
+  glob=""
+  for pattern in "$@"; do
+    glob="$glob.*$pattern"
+  done
+
+  count=1
+  dirs="$(find . -type d | grep $glob)"
+  for line in $dirs; do
+    echo "$line --> $count"
+    count=$[count+1]
+  done
+
+  read line
+  dir="$(echo "$dirs" | head -n "$line" | tail -n 1)"
+  cd "${dir}"
+}
+
+
+#
+# TAKEN FROM: http://sed.sourceforge.net/grabbag/scripts/dtree.sh.txt
+#
+# dtree: prints a directory tree from the current directory downwards
+#        or specify a directory from which to print
+
+# e.g.   dtree
+# e.g.   dtree mydir
+
+function dtree() {
+  # Create variable equal to selected directory (or current if none specified)
+  dir=${1-.}
+
+  # Change to the appropriate directory
+  (cd $dir; pwd)
+
+  find $dir -type d -print | sort -f | sed -e "
+          s:^$1::
+          /^$/d
+          /^\.$/d
+          s:[^/]*/\([^/]*\)$:|-----\1:
+          s:[^/]*/:|     :g"
 }
