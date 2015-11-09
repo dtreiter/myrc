@@ -27,9 +27,10 @@ values."
      ;; better-defaults
      emacs-lisp
      git
+     yaml
      ;; markdown
      ;;javascript
-     org
+     ;;org
      ;; (shell :variables
      ;;        shell-default-height 30
      ;;        shell-default-position 'bottom)
@@ -79,13 +80,14 @@ values."
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(zenburn
-                         monokai
+   dotspacemacs-themes '(
+                         zenburn
+                         leuven
+                         ;monokai
                          ;spacemacs-dark
                          ;spacemacs-light
                          ;solarized-light
                          ;solarized-dark
-                         leuven
                          )
    ;; If non nil the cursor color matches the state color.
    dotspacemacs-colorize-cursor-according-to-state t
@@ -208,6 +210,9 @@ layers configuration. You are free to put any user code."
   (setq linum-format "%d ")
   (spacemacs/toggle-line-numbers)
 
+  ;; Fill column indicator
+  (spacemacs/toggle-fill-column-indicator-on)
+
   ;; Turn off default text in helm swoop
   (setq helm-swoop-pre-input-function (lambda () nil))
 
@@ -220,7 +225,9 @@ layers configuration. You are free to put any user code."
   (global-evil-search-highlight-persist -1)
 
   ;; Insert snippets easily from evil-insert-state
-  (define-key evil-insert-state-map (kbd "C-s") #'yas/insert-snippet)
+  (define-key evil-insert-state-map (kbd "C-s") #'spacemacs/helm-yas)
+  (define-key evil-insert-state-map (kbd "C-,") #'yas-next-field)
+  (define-key evil-insert-state-map (kbd "C-e") #'yas-next-field)
 
   ;; Move through wrapped lines
   (define-key evil-normal-state-map (kbd "j") 'evil-next-visual-line)
@@ -337,6 +344,7 @@ layers configuration. You are free to put any user code."
     ";"  #'helm-M-x
     "bv" #'me/view-mode-enable
     "d"  #'evil-scroll-page-up
+    "eh"  #'eshell
     "ff" #'ido-find-file
     "fw" #'ido-write-file
     "ha" #'helm-apropos
