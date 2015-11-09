@@ -18,6 +18,7 @@ set incsearch
 set history=1000
 set undolevels=1000
 set wildignore=*.swp,*.bak
+set wildmenu
 set visualbell
 set noerrorbells
 set nobackup
@@ -34,9 +35,11 @@ set ttimeout
 noremap! <C-g> <Esc>
 
 " Files
-nnoremap <Leader>ff :e 
-nnoremap <Leader>fs :w<CR>
-nnoremap <Leader>fw :w<Space>
+nnoremap <Leader>ff :edit 
+nnoremap <Leader>fs :write<CR>
+nnoremap <Leader>fw :write<Space>
+nnoremap <Leader>fed :edit $MYVIMRC<CR>
+nnoremap <Leader>feR :source $MYVIMRC<CR>
 
 " Windows
 nnoremap <Leader>wR <C-w><C-r>
@@ -45,23 +48,26 @@ nnoremap <Leader>wh <C-w>h
 nnoremap <Leader>wj <C-w>j
 nnoremap <Leader>wk <C-w>k
 nnoremap <Leader>wl <C-w>l
+nnoremap <Leader>wm <C-w>o
 nnoremap <Leader>ws <C-w>s
 nnoremap <Leader>wv <C-w>v
 
 " Buffer
-nnoremap <Leader>bb :ls<CR>:b
-nnoremap <Leader>bc :ls<CR>:bd!
-nnoremap <Leader>bk :b#<CR>:bd#<CR>
-nnoremap <Leader>bn :bn<CR>
-nnoremap <Leader>bp :bp<CR>
+nnoremap <Leader>bb :buffers<CR>:buffer 
+nnoremap <Leader>bc :buffers<CR>:bdelete! 
+nnoremap <Leader>bk :buffer#<CR>:bdelete#<CR>
+nnoremap <Leader>bn :bnext<CR>
+nnoremap <Leader>bp :bprevious<CR>
+nnoremap <Leader><Tab> :bprevious<CR>
 
 " Search
-nnoremap <Leader>sa :call NewScratchBuffer('ack.vim')<CR>:r! ack 
-nnoremap <Leader>pf :call NewScratchBuffer('find.vim')<CR>:r! find . -type f \| grep 
-nnoremap <Leader>gd :call NewScratchBuffer('git.vim')<CR>:r! git diff<CR>gg
-nnoremap <Leader>gh :call NewScratchBuffer('git.vim')<CR>:r! git diff --cached<CR>gg
-nnoremap <Leader>gl :call NewScratchBuffer('git.vim')<CR>:r! git log -80<CR>gg
-nnoremap <Leader>gs :call NewScratchBuffer('git.vim')<CR>:r! git status<CR>gg
+nnoremap <Leader>/ :call NewScratchBuffer('ack.vim')<CR>q:a:read! ack 
+nnoremap <Leader>ss :call NewScratchBuffer('swoop.vim')<CR>q:a:read! grep -nH 
+nnoremap <Leader>pf :call NewScratchBuffer('find.vim')<CR>q:a:read! find . -type f \| grep 
+nnoremap <Leader>gd :call NewScratchBuffer('git.vim')<CR>q:a:read! git diff<CR>gg
+nnoremap <Leader>gh :call NewScratchBuffer('git.vim')<CR>q:a:read! git diff --cached<CR>gg
+nnoremap <Leader>gl :call NewScratchBuffer('git.vim')<CR>q:a:read! git log -80<CR>gg
+nnoremap <Leader>gs :call NewScratchBuffer('git.vim')<CR>q:a:read! git status<CR>gg
 
 " Quitting
 nnoremap <Leader>qq :qa<CR>
