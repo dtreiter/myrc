@@ -16,6 +16,13 @@ alias gd='git diff'
 alias gdh='git diff --cached'
 alias r='grep'
 
+# Write to history immediately, for sharing history between terminals
+shopt -s histappend
+PROMPT_COMMAND='history -a;history -n'
+export HISTCONTROL=ignoreboth:erasedups   # no duplicate entries
+HISTSIZE=100000
+HISTFILESIZE=200000
+
 # Push the current git branch
 function gpusho {
   git push origin `g branch | grep \* | cut -f2 -d" "`
