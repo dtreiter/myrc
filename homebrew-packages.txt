@@ -1,0 +1,13 @@
+ack
+ctags
+entr
+htop-osx
+ngrok
+node
+pandoc
+pkg-config
+tig
+tmux
+valgrind
+w3m
+wget
