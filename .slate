@@ -21,6 +21,6 @@ bind u:${hyper} focus 'Emacs'
 
 # Also bind f keys for window switching
 bind f1 focus 'Google Chrome'
-bind f2 focus 'Emacs'
+bind f2 focus 'iTerm'
 bind f5 focus 'Messages'
 bind f6 focus 'Colloquy'
