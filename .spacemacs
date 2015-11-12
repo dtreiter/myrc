@@ -42,7 +42,7 @@ values."
    ;; wrapped in a layer. If you need some configuration for these
    ;; packages then consider to create a layer, you can also put the
    ;; configuration in `dotspacemacs/config'.
-   dotspacemacs-additional-packages '()
+   dotspacemacs-additional-packages '(adjust-parens)
    ;; A list of packages and/or extensions that will not be install and loaded.
    dotspacemacs-excluded-packages '()
    ;; If non-nil spacemacs will delete any orphan packages, i.e. packages that
@@ -216,6 +216,11 @@ layers configuration. You are free to put any user code."
   ;; Turn off default text in helm swoop
   (setq helm-swoop-pre-input-function (lambda () nil))
 
+  ;; Hack around evil-esc-delay for using tmux with VACS
+  (define-key evil-normal-state-map (kbd "<f10>") #'evil-force-normal-state)
+  (define-key evil-visual-state-map (kbd "<f10>") #'evil-force-normal-state)
+  (define-key evil-insert-state-map (kbd "<f10>") #'evil-force-normal-state)
+
   ;; Use 'f' for quick word jumping
   (define-key evil-normal-state-map   "f" #'evil-avy-goto-word-or-subword-1)
   (define-key evil-visual-state-map   "f" #'evil-avy-goto-word-or-subword-1)
@@ -249,9 +254,15 @@ layers configuration. You are free to put any user code."
   ;; Add clear function to eshell
   (defun eshell/clear ()
     "Clear the eshell buffer."
+    (interactive)
     (let ((inhibit-read-only t))
       (erase-buffer)
       (eshell-send-input)))
+
+  ;; Bind eshell/clear to C-l, like bash
+  (add-hook 'eshell-mode-hook
+            '(lambda()
+               (local-set-key (kbd "C-l") 'eshell/clear)))
 
   (require 'org)
   (setq org-log-done t)

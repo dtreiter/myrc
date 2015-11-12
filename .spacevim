@@ -35,6 +35,11 @@ set ttimeout
 " Map <C-g> to <esc> since it's used as keyboard-quit in spacemacs
 noremap! <C-g> <Esc>
 
+" Toggles
+set pastetoggle=<Leader>tp
+nnoremap <Leader>tn :set invnumber<CR>
+nnoremap <Leader>tl :set invcursorline<CR>
+
 " Files
 nnoremap <Leader>ff :edit 
 nnoremap <Leader>fs :write<CR>
