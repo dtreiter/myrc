@@ -36,7 +36,7 @@ set ttimeout
 noremap! <C-g> <Esc>
 
 " Toggles
-set pastetoggle=<Leader>tp
+nnoremap <Leader>tp :set invpaste<CR>
 nnoremap <Leader>tn :set invnumber<CR>
 nnoremap <Leader>tl :set invcursorline<CR>
 
