@@ -98,7 +98,10 @@ function ChangeTo(name)
 endfunction
 
 function NewScratchBuffer(name)
+  execute "normal \<C-w>k\<C-w>k\<C-w>o"
   call MakeSplitBelow() " TODO Only make split if a buffer with 'name.vim' is not currently visible
   call ChangeTo(a:name)
+  resize 18
   setlocal buftype=nofile
+  nnoremap <buffer> <CR> <C-w>o<C-w>sgF<C-w>j:resize 18<CR><C-w>k
 endfunction
