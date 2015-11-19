@@ -28,9 +28,19 @@ function gpusho {
   git push origin `g branch | grep \* | cut -f2 -d" "`
 }
 
+# Quick git checkout for long branch names
+function gc {
+  git checkout `git branch | grep -i $1`
+}
+
 # Simple shorter wrapper around find
 function f {
   find $1 -type f
+}
+
+# Fast file grepping by filename
+function s {
+  find . -type f | grep -v \.git | grep $1 | xargs grep -Hni $2
 }
 
 # Fast changing of directories
