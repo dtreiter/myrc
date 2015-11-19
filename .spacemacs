@@ -300,6 +300,17 @@ layers configuration. You are free to put any user code."
     (let ((current-prefix-arg '(4)))
       (call-interactively 'view-mode)))
 
+  (defun me/local-shell-command (command)
+    "Force shell-command to run locally to get around TRAMP."
+    (interactive)
+    (let ((default-directory "/"))
+      (shell-command command)))
+
+  (defun me/save-file-and-refresh-chrome ()
+    (interactive)
+    (save-buffer)
+    (me/local-shell-command "osascript -e 'tell application \"Google Chrome\" to reload active tab of window 1'"))
+
   (defun me/layout-double-columns ()
     "Set the layout to double columns."
     (interactive)
@@ -357,6 +368,7 @@ layers configuration. You are free to put any user code."
     "d"  #'evil-scroll-page-up
     "eh"  #'eshell
     "ff" #'ido-find-file
+    "fb" #'me/save-file-and-refresh-chrome
     "fw" #'ido-write-file
     "ha" #'helm-apropos
     "ir" #'spacemacs/indent-region-or-buffer
