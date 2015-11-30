@@ -259,10 +259,16 @@ layers configuration. You are free to put any user code."
       (erase-buffer)
       (eshell-send-input)))
 
-  ;; Bind eshell/clear to C-l, like bash
+  ;; Add some bash-like bindings to eshell.
   (add-hook 'eshell-mode-hook
             '(lambda()
+               (local-set-key (kbd "C-u") 'eshell-kill-input)
                (local-set-key (kbd "C-l") 'eshell/clear)))
+
+  (defun eshell/vi (file)
+    "Overwrite vi with find-file in eshell"
+    (interactive)
+    (find-file file))
 
   (require 'org)
   (setq org-log-done t)
