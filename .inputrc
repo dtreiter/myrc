@@ -12,6 +12,9 @@ $if mode=vi
     "\C-g": abort
 $endif
 
-#set show-all-if-ambiguous on
+# set show-all-if-ambiguous on
 set bell-style none
 set completion-ignore-case on
+
+# Show vi mode in prompt -- only supported in newer versions on bash & readline
+# set show-mode-in-prompt on
