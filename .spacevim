@@ -103,5 +103,5 @@ function NewScratchBuffer(name)
   call ChangeTo(a:name)
   resize 18
   setlocal buftype=nofile
-  nnoremap <buffer> <CR> <C-w>o<C-w>sgF<C-w>j:resize 18<CR><C-w>k
+  nnoremap <buffer> <CR> 0<C-w>o<C-w>sgF<C-w>j:resize 18<CR><C-w>k
 endfunction
