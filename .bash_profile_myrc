@@ -11,6 +11,7 @@ bind -x '"\C-l": clear;'
 # Aliases
 alias vi='vim'
 alias g='git'
+alias gi='git add -i'
 alias gs='git status'
 alias gd='git diff'
 alias gdh='git diff --cached'
