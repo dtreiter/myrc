@@ -24,6 +24,7 @@ set noerrorbells
 set nobackup
 set noswapfile
 set mouse=a
+set scrolloff=5
 
 " Map leader to <Space>
 let mapleader = "\<Space>"
