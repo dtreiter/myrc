@@ -49,6 +49,10 @@ nnoremap <Leader>fed :edit $MYVIMRC<CR>
 nnoremap <Leader>feR :source $MYVIMRC<CR>
 
 " Windows
+nnoremap <Leader>1 1<C-w>w
+nnoremap <Leader>2 2<C-w>w
+nnoremap <Leader>3 3<C-w>w
+nnoremap <Leader>4 4<C-w>w
 nnoremap <Leader>wR <C-w><C-r>
 nnoremap <Leader>wc <C-w>c
 nnoremap <Leader>wh <C-w>h
