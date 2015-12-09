@@ -74,7 +74,7 @@ nnoremap <Leader><Tab> :bprevious<CR>
 " Search
 nnoremap <Leader>/ :call NewScratchBuffer('ack.vim')<CR>q:a:read! ack 
 nnoremap <Leader>st viw"ay:call NewScratchBuffer('ack.vim')<CR>q:a:read! ack <Esc>"ap<CR>
-nnoremap <Leader>ss :call NewScratchBuffer('swoop.vim')<CR>q:a:read! grep -nH 
+nnoremap <Leader>ss :call NewScratchBuffer('swoop.vim')<CR>q:a:read! grep -nH  #<Esc>hha
 nnoremap <Leader>pf :call NewScratchBuffer('find.vim')<CR>q:a:read! find . -type f \| grep 
 nnoremap <Leader>gd :call NewScratchBuffer('git.vim')<CR>q:a:read! git diff<CR>gg
 nnoremap <Leader>gh :call NewScratchBuffer('git.vim')<CR>q:a:read! git diff --cached<CR>gg
@@ -104,7 +104,7 @@ function ChangeTo(name)
 endfunction
 
 function NewScratchBuffer(name)
-  execute "normal \<C-w>k\<C-w>k\<C-w>o"
+  execute "normal \<C-w>t\<C-w>o"
   call MakeSplitBelow() " TODO Only make split if a buffer with 'name.vim' is not currently visible
   call ChangeTo(a:name)
   resize 18
