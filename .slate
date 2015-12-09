@@ -12,15 +12,8 @@ bind down:ctrl;cmd   push down  bar-resize:screenSizeY/2
 bind i:cmd hint
 
 # O(1) window switching
-bind j:${hyper} focus 'Google Chrome'
-bind k:${hyper} focus 'Messages'
-bind l:${hyper} focus 'Colloquy'
-bind o:${hyper} focus 'Microsoft Outlook'
-#bind u:${hyper} focus 'iTerm'
-bind u:${hyper} focus 'Emacs'
-
-# Also bind f keys for window switching
 bind f1 focus 'Google Chrome'
 bind f2 focus 'iTerm'
 bind f5 focus 'Messages'
-bind f6 focus 'Colloquy'
+bind f6 focus 'IRCCloud'
+bind o:${hyper} focus 'Microsoft Outlook'
