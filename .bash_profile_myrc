@@ -15,6 +15,7 @@ alias gi='git add -i'
 alias gs='git status'
 alias gd='git diff'
 alias gdh='git diff --cached'
+alias pd='popd'
 alias r='grep'
 
 # Write to history immediately, for sharing history between terminals
@@ -52,7 +53,7 @@ function c() {
   done
 
   count=1
-  dirs="$(find . -type d | grep $glob)"
+  dirs="$(find . -type d | grep -i $glob)"
   for line in $dirs; do
     echo "$line --> $count"
     count=$[count+1]
@@ -60,7 +61,7 @@ function c() {
 
   read line
   dir="$(echo "$dirs" | head -n "$line" | tail -n 1)"
-  cd "${dir}"
+  pushd "${dir}"
 }
 
 
