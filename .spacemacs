@@ -250,6 +250,7 @@ layers configuration. You are free to put any user code."
     (setq default-tab-width 4))
   (add-hook 'tcl-mode-hook 'my-tcl-tabs)
   (add-hook 'js-mode-hook 'my-tcl-tabs)
+  (add-hook 'css-mode-hook 'my-tcl-tabs)
 
   ;; Add clear function to eshell
   (defun eshell/clear ()
@@ -283,6 +284,11 @@ layers configuration. You are free to put any user code."
              (tramp-tramp-file-p (ad-get-arg 0)))
         nil
       ad-do-it))
+
+  ;; Force align-regexp to use spaces
+  (defadvice align-regexp (around align-regexp-with-spaces activate)
+    (let ((indent-tabs-mode nil))
+          ad-do-it))
 
   ;; Keep autosave from misbehaving over tramp
   (setq tramp-auto-save-directory "/tmp")
@@ -372,7 +378,7 @@ layers configuration. You are free to put any user code."
     ";"  #'helm-M-x
     "bv" #'me/view-mode-enable
     "d"  #'evil-scroll-page-up
-    "eh"  #'eshell
+    "eh" #'eshell
     "ff" #'ido-find-file
     "fb" #'me/save-file-and-refresh-chrome
     "fw" #'ido-write-file
@@ -391,6 +397,7 @@ layers configuration. You are free to put any user code."
     "ys" #'yas/insert-snippet
     "wr" #'spacemacs/rotate-windows
     "w2" #'me/layout-double-columns
+    "ps" #'python-shell-send-buffer
   )
 )
 
