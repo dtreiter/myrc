@@ -2,7 +2,7 @@
 
 # The source directory and target directories.
 SOURCE="$PWD"
-TARGET="$(echo $HOME)/test"
+TARGET="$(echo $HOME)"
 
 FILES="$(find . -name '*.symlink')"
 for FILE in $FILES; do
