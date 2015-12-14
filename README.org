@@ -1,0 +1,6 @@
+* Dotfiles
+  This repo consists of my various dotfiles. It also contains an install script
+  which will create symlinks in your home directory to each of the files or
+  directories ending in =.symlink=.
+  
+  To use, just run =./install.sh= from this repo's root directory.
