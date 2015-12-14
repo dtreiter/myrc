@@ -6,6 +6,7 @@ ngrok
 node
 pandoc
 pkg-config
+rlwrap
 tig
 tmux
 valgrind

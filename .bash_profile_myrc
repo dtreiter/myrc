@@ -70,10 +70,10 @@ function c() {
 #
 # dtree: prints a directory tree from the current directory downwards
 #        or specify a directory from which to print
-
+#
 # e.g.   dtree
 # e.g.   dtree mydir
-
+#
 function dtree() {
   # Create variable equal to selected directory (or current if none specified)
   dir=${1-.}
