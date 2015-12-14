@@ -4,3 +4,7 @@
   directories ending in =.symlink=.
   
   To use, just run =./install.sh= from this repo's root directory.
+
+* Homebrew
+  To install the OS X Homebrew packages, run:
+  =cat homebrew-packages.txt | xargs brew install=.
