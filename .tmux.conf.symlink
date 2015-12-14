@@ -56,8 +56,8 @@ setw -g pane-base-index 1
   set-option -g status-position top
 
   # status bar colors
-  set -g status-bg colour12
-  set -g status-fg white
+  set -g status-bg yellow
+  set -g status-fg black
 
   # alignment settings
   set-option -g status-justify centre
@@ -69,7 +69,7 @@ setw -g pane-base-index 1
   # window list options
   setw -g automatic-rename on
   set-window-option -g window-status-format '#I.#W#F'
-  set-window-option -g window-status-current-format '#[bg=white,fg=colour12] #I.#W#F '
+  set-window-option -g window-status-current-format '#[bg=black,fg=yellow] #I.#W#F '
   set -g base-index 1
 
   # status right options
