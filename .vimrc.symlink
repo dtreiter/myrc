@@ -36,6 +36,9 @@ set ttimeout
 " Map <C-g> to <esc> since it's used as keyboard-quit in spacemacs
 noremap! <C-g> <Esc>
 
+" TODO: This is used by VACS
+noremap! <F10> <Esc>
+
 " Toggles
 nnoremap <Leader>tp :set invpaste<CR>
 nnoremap <Leader>tn :set invnumber<CR>
