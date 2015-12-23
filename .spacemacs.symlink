@@ -42,7 +42,10 @@ values."
    ;; wrapped in a layer. If you need some configuration for these
    ;; packages then consider to create a layer, you can also put the
    ;; configuration in `dotspacemacs/config'.
-   dotspacemacs-additional-packages '(adjust-parens)
+   dotspacemacs-additional-packages '(
+                                      adjust-parens
+                                      markdown-mode
+                                      )
    ;; A list of packages and/or extensions that will not be install and loaded.
    dotspacemacs-excluded-packages '()
    ;; If non-nil spacemacs will delete any orphan packages, i.e. packages that
@@ -243,14 +246,14 @@ layers configuration. You are free to put any user code."
 
   ;; Configure whitespace for tcl and rvt files
   (add-to-list 'auto-mode-alist '("\\.\\(rvt\\|tcl\\|test\\)" . tcl-mode))
-  (defun my-tcl-tabs ()
+  (defun me/use-tabs ()
     (setq c-basic-offset 4)
     (setq tab-width 4)
     (setq indent-tabs-mode t)
     (setq default-tab-width 4))
-  (add-hook 'tcl-mode-hook 'my-tcl-tabs)
-  (add-hook 'js-mode-hook 'my-tcl-tabs)
-  (add-hook 'css-mode-hook 'my-tcl-tabs)
+  (add-hook 'tcl-mode-hook 'me/use-tabs)
+  (add-hook 'js-mode-hook 'me/use-tabs)
+  (add-hook 'css-mode-hook 'me/use-tabs)
 
   ;; Add clear function to eshell
   (defun eshell/clear ()
@@ -323,6 +326,11 @@ layers configuration. You are free to put any user code."
     (save-buffer)
     (me/local-shell-command "osascript -e 'tell application \"Google Chrome\" to reload active tab of window 1'"))
 
+  (defun me/revert-buffer-no-confirm ()
+    "Revert buffer without confirmation."
+    (interactive)
+    (revert-buffer t t))
+
   (defun me/layout-double-columns ()
     "Set the layout to double columns."
     (interactive)
@@ -379,8 +387,9 @@ layers configuration. You are free to put any user code."
     "bv" #'me/view-mode-enable
     "d"  #'evil-scroll-page-up
     "eh" #'eshell
-    "ff" #'ido-find-file
     "fb" #'me/save-file-and-refresh-chrome
+    "fn" #'me/revert-buffer-no-confirm
+    "ff" #'ido-find-file
     "fw" #'ido-write-file
     "ha" #'helm-apropos
     "ir" #'spacemacs/indent-region-or-buffer
@@ -392,6 +401,8 @@ layers configuration. You are free to put any user code."
     "os" #'org-schedule
     "oc" #'org-cycle
     "or" #'org-ctrl-c-ctrl-c
+    "od" #'org-move-item-down
+    "ou" #'org-move-item-up
     "st" #'helm-etags-select
     "yr" #'me/yank-to-register
     "ys" #'yas/insert-snippet
