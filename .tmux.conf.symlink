@@ -29,6 +29,10 @@ set -g mouse-resize-pane on
 set -g mouse-select-pane on
 set -g mouse-select-window on
 
+# Allow splitting to with current path rather than session root.
+bind / split-window -h -c "#{pane_current_path}"
+bind - split-window -v -c "#{pane_current_path}"
+
 # enable vim keys
 set-window-option -g mode-keys vi
 bind-key -t vi-copy 'v' begin-selection
