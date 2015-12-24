@@ -17,6 +17,7 @@ alias gd='git diff'
 alias gdh='git diff --cached'
 alias pd='popd'
 alias r='grep'
+alias ta='tmux a'
 
 # Write to history immediately, for sharing history between terminals
 shopt -s histappend
