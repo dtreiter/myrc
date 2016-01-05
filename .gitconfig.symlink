@@ -4,6 +4,9 @@
     default = simple
 [alias]
     c = checkout
+    d = diff
+    dh = diff --cached
+    i = add -i
     lol = log --graph --decorate --pretty=oneline --abbrev-commit
     lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
     unstage = reset HEAD --
