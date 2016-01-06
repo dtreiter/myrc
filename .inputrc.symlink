@@ -1,6 +1,5 @@
-# Make tab cycle between completions
 set editing-mode vi
-TAB: menu-complete
+
 set keymap vi
 $if mode=vi
     set keymap vi-command
@@ -8,8 +7,24 @@ $if mode=vi
     "G": end-of-history
     "\C-w": backward-kill-word
     "\C-p": history-search-backward
-    "\C-x\C-r": re-read-init-file
+
+    set keymap vi-insert
+    TAB: menu-complete # Make tab cycle between completions
+
+    # Keep some emacs-mode bindings
+    "\C-a": beginning-of-line
+    "\C-e": end-of-line
     "\C-g": abort
+    "\C-l": clear-screen
+    "\C-x\C-r": re-read-init-file
+
+    # Custom bindings
+    "\C-p": "\C-e | " # Append a pipe
+    "\C-t": "\C-a#"   # Prepend a comment
+    "\C-v": "\C-e | vi -"   # Pipe to vi
+    "\e[A":history-search-backward
+    "\e[B":history-search-forward
+
 $endif
 
 # set show-all-if-ambiguous on
