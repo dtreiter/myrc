@@ -8,3 +8,7 @@
 * Homebrew
   To install the OS X Homebrew packages, run:
   =cat homebrew-packages.txt | xargs brew install=.
+
+* Misc
+  Use percol for interactive grep. To install, do:
+  =sudo pip install percol=.
