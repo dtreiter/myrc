@@ -13,13 +13,15 @@ $if mode=vi
 
     # Keep some emacs-mode bindings
     "\C-a": beginning-of-line
+    "\C-b": backward-char
+    "\M-b": backward-word
     "\C-e": end-of-line
     "\C-g": abort
     "\C-l": clear-screen
     "\C-x\C-r": re-read-init-file
 
     # Custom bindings
-    "\C-p": "\C-e | " # Append a pipe
+    "\C-p": "\$( | percol)\M-b\C-b\C-b\C-b" # Select with interactive grep
     "\C-t": "\C-a#"   # Prepend a comment
     "\C-v": "\C-e | vi -"   # Pipe to vi
     "\e[A":history-search-backward
