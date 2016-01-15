@@ -19,7 +19,7 @@ $if mode=vi
     "\C-x\C-r": re-read-init-file
 
     # Custom bindings
-    "\C-p": "\$( | percol)\ebbhi" # Select with interactive grep
+    "\C-p": " \$( | percol)\ebbhi" # Select with interactive grep
     "\C-t": "\C-a#"   # Prepend a comment
     "\C-v": "\C-e | vi -"   # Pipe to vi
     "\e[A":history-search-backward

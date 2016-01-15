@@ -8,6 +8,9 @@ alias gi='git add -i'
 alias gs='git status'
 alias gd='git diff'
 alias gdh='git diff --cached'
+alias gh='git rev-parse --show-toplevel'
+alias gcp='git checkout $(git branch | percol)'
+alias cdp='cd $(find $(git rev-parse --show-toplevel) -type d | percol)' # change to any dir in a git repo
 alias pd='popd'
 alias r='grep'
 alias ta='tmux a'
@@ -30,9 +33,13 @@ function gc {
   git checkout `git branch | grep -i $1`
 }
 
-# Simple shorter wrapper around find
-function f {
+# Simple shorter wrappers around find
+function ff {
   find $1 -type f
+}
+
+function fd {
+  find $1 -type d
 }
 
 # Fast file grepping by filename
