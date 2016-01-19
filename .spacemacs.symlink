@@ -45,6 +45,7 @@ values."
    dotspacemacs-additional-packages '(
                                       adjust-parens
                                       markdown-mode
+                                      evil-snipe
                                       )
    ;; A list of packages and/or extensions that will not be install and loaded.
    dotspacemacs-excluded-packages '()
@@ -219,6 +220,11 @@ layers configuration. You are free to put any user code."
   ;; Turn off default text in helm swoop
   (setq helm-swoop-pre-input-function (lambda () nil))
 
+  (evil-snipe-mode 1)
+  (setq evil-snipe-scope 'whole-buffer)
+  (setq evil-snipe-repeat-scope 'whole-buffer)
+  (setq evil-snipe-spillover-scope 'whole-buffer)
+
   ;; Hack around evil-esc-delay for using tmux with VACS
   (define-key evil-normal-state-map (kbd "<f10>") #'evil-force-normal-state)
   (define-key evil-visual-state-map (kbd "<f10>") #'evil-force-normal-state)
@@ -242,7 +248,7 @@ layers configuration. You are free to put any user code."
   (define-key evil-normal-state-map (kbd "k") 'evil-previous-visual-line)
 
   ;; Make s enter custom view-mode
-  (define-key evil-normal-state-map (kbd "s") 'me/view-mode-enable)
+  ;; (define-key evil-normal-state-map (kbd "s") 'me/view-mode-enable)
 
   ;; Configure whitespace for tcl and rvt files
   (add-to-list 'auto-mode-alist '("\\.\\(rvt\\|tcl\\|test\\)" . tcl-mode))
@@ -408,6 +414,7 @@ layers configuration. You are free to put any user code."
     "ys" #'yas/insert-snippet
     "wr" #'spacemacs/rotate-windows
     "w2" #'me/layout-double-columns
+    "xc" #'whitespace-cleanup
     "ps" #'python-shell-send-buffer
   )
 )
