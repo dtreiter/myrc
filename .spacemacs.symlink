@@ -410,6 +410,7 @@ layers configuration. You are free to put any user code."
     "od" #'org-move-item-down
     "ou" #'org-move-item-up
     "st" #'helm-etags-select
+    "to" #'follow-mode
     "yr" #'me/yank-to-register
     "ys" #'yas/insert-snippet
     "wr" #'spacemacs/rotate-windows
