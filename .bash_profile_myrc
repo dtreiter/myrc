@@ -45,6 +45,24 @@ function s {
   find . -type f | grep -v \.git | grep $1 | xargs grep -Hni $2
 }
 
+# Run a command when a given file has changed.
+# Example:
+#   when-changed myfile.txt echo 'hello'
+function when-changed {
+  f=$1
+  shift
+  tmpf="`mktemp /tmp/onchange.XXXXX`"
+  touch -r "$f" "$tmpf"
+  trap "rm $tmpf; exit 1" 2
+  while : ; do
+    if [ "$f" -nt "$tmpf" ]; then
+      touch -r "$f" "$tmpf"
+        "$@"
+    fi
+    sleep 2
+  done
+}
+
 # Fast changing of directories
 function c() {
   glob=""
