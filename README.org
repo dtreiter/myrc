@@ -5,10 +5,13 @@
   
   To use, just run =./install.sh= from this repo's root directory.
 
-* Homebrew
-  To install the OS X Homebrew packages, run:
-  =cat homebrew-packages.txt | xargs brew install=.
+* Packages
+  Additional programs are handled by package managers.
 
-* Misc
-  Use percol for interactive grep. To install, do:
-  =sudo pip install percol=.
+** Homebrew
+   To install the OS X Homebrew packages, run:
+   =cat homebrew-packages.txt | xargs brew install=.
+
+** Pip
+   To install the PyPI packages, run:
+   =cat pip-packages.txt | sudo pip install percol=.
