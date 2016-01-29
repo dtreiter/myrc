@@ -13,6 +13,7 @@ alias pd='popd'
 alias r='grep'
 alias ta='tmux a'
 alias w3='w3m google.com'
+alias tclsh='rlwrap tclsh'
 
 # Write to history immediately, for sharing history between terminals
 shopt -s histappend
