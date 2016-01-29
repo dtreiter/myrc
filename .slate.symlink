@@ -1,5 +1,3 @@
-alias hyper ctrl;shift;alt;cmd
-
 config defaultToCurrentScreen true
 
 # Push Bindings
@@ -14,6 +12,10 @@ bind i:cmd hint
 # O(1) window switching
 bind f1 focus 'Google Chrome'
 bind f2 focus 'iTerm'
+bind f4 focus 'Microsoft Outlook'
 bind f5 focus 'Messages'
 bind f6 focus 'IRCCloud'
-bind o:${hyper} focus 'Microsoft Outlook'
+
+# Example of using `hyper` key.
+# alias hyper ctrl;shift;alt;cmd
+# bind o:${hyper} focus 'Microsoft Outlook'
