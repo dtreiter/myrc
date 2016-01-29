@@ -14,4 +14,4 @@
 
 ** Pip
    To install the PyPI packages, run:
-   =cat pip-packages.txt | sudo pip install=.
+   =cat pip-packages.txt | xargs sudo pip install=.
