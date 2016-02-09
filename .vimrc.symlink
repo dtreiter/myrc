@@ -42,6 +42,7 @@ noremap! <F10> <Esc>
 " Toggles
 nnoremap <Leader>tp :set invpaste<CR>
 nnoremap <Leader>tn :set invnumber<CR>
+nnoremap <Leader>tr :set invrelativenumber<CR>
 nnoremap <Leader>tl :set invcursorline<CR>
 
 " Files
