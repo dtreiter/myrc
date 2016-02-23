@@ -39,6 +39,9 @@ noremap! <C-g> <Esc>
 " TODO: This is used by VACS
 noremap! <F10> <Esc>
 
+" Switch to normal mode automatically after a timeout.
+nmap <Leader>tt :call ToggleAutoEscape()<cr>
+
 " Toggles
 nnoremap <Leader>tp :set invpaste<CR>
 nnoremap <Leader>tn :set invnumber<CR>
@@ -116,4 +119,11 @@ function NewScratchBuffer(name)
   resize 18
   setlocal buftype=nofile
   nnoremap <buffer> <CR> 0<C-w>o<C-w>sgF<C-w>j:resize 18<CR><C-w>k
+endfunction
+
+let s:on = 0
+function ToggleAutoEscape()
+   let &updatetime = 1500
+   let s:on = !s:on
+   exec "au".((s:on)?"":"!") "CursorHoldI *" ((s:on)?"stopinsert":"")
 endfunction
