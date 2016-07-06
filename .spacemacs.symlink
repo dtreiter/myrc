@@ -387,7 +387,7 @@ layers configuration. You are free to put any user code."
            (lambda (search-term)
              (concat "git --no-pager grep -Ei --break --line-number -e \"" search-term "\" -- `git rev-parse --show-toplevel`"))))
       (if (string= "" pattern)
-          (find-grep (funcall find-command pattern))
+          (find-grep (funcall find-command (thing-at-point 'word)))
         (find-grep (funcall find-command pattern)))))
 
   (defun me/layout-double-columns ()
