@@ -379,6 +379,17 @@ layers configuration. You are free to put any user code."
     (interactive)
     (revert-buffer t t))
 
+  (defun me/git-grep (pattern)
+    "Call `git-grep' with reasonable defaults."
+    (interactive "sEnter search regex: ")
+    (let ((search-term (thing-at-point 'word))
+          (find-command
+           (lambda (search-term)
+             (concat "git --no-pager grep -Ei --break --line-number -e \"" search-term "\" -- `git rev-parse --show-toplevel`"))))
+      (if (string= "" pattern)
+          (find-grep (funcall find-command pattern))
+        (find-grep (funcall find-command pattern)))))
+
   (defun me/layout-double-columns ()
     "Set the layout to double columns."
     (interactive)
@@ -458,6 +469,7 @@ layers configuration. You are free to put any user code."
     "w2" #'me/layout-double-columns
     "xc" #'whitespace-cleanup
     "ps" #'python-shell-send-buffer
+    "/"  #'me/git-grep
   )
 )
 
