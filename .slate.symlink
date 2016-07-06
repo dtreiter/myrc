@@ -3,18 +3,19 @@ config defaultToCurrentScreen true
 # Push Bindings
 bind right:ctrl;cmd  push right bar-resize:screenSizeX/2
 bind left:ctrl;cmd   push left  bar-resize:screenSizeX/2
-bind up:ctrl;cmd     push up    bar-resize:screenSizeY/2
-bind down:ctrl;cmd   push down  bar-resize:screenSizeY/2
+bind up:ctrl;cmd   resize +0 -10%
+bind down:ctrl;cmd   resize +0 -50%
+#bind up:ctrl;cmd     push up    bar-resize:screenSizeY/2
+#bind down:ctrl;cmd   push down  bar-resize:screenSizeY/2
 
 # Window Hints
 bind i:cmd hint
 
 # O(1) window switching
-bind f1 focus 'Google Chrome'
-bind f2 focus 'iTerm'
-bind f4 focus 'Microsoft Outlook'
-bind f5 focus 'Messages'
-bind f6 focus 'IRCCloud'
+bind f1 focus 'iTerm'
+bind f2 focus 'Google Chrome'
+bind f4 focus 'Slack'
+bind f5 focus 'Microsoft Outlook'
 
 # Example of using `hyper` key.
 # alias hyper ctrl;shift;alt;cmd
