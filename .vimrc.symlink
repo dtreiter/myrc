@@ -25,6 +25,7 @@ set nobackup
 set noswapfile
 set mouse=a
 set scrolloff=5
+set tags+=tags;/
 
 " Map leader to <Space>
 let mapleader = "\<Space>"
@@ -44,6 +45,7 @@ nnoremap <Leader>tp :set invpaste<CR>
 nnoremap <Leader>tn :set invnumber<CR>
 nnoremap <Leader>tr :set invrelativenumber<CR>
 nnoremap <Leader>tl :set invcursorline<CR>
+nnoremap <Leader>sc :nohl<CR>
 nmap <Leader>tt :call ToggleAutoEscape()<cr>
 
 " Files
@@ -75,7 +77,7 @@ nnoremap <Leader>bc :buffers<CR>:bdelete!
 nnoremap <Leader>bk :buffer#<CR>:bdelete#<CR>
 nnoremap <Leader>bn :bnext<CR>
 nnoremap <Leader>bp :bprevious<CR>
-nnoremap <Leader><Tab> :bprevious<CR>
+nnoremap <Leader><Tab> :buffer#<CR>
 
 " Search
 nnoremap <Leader>/ :call NewScratchBuffer('ack.vim')<CR>q:a:read! ack 
@@ -117,6 +119,7 @@ function NewScratchBuffer(name)
   resize 18
   setlocal buftype=nofile
   nnoremap <buffer> <CR> 0<C-w>o<C-w>sgF<C-w>j:resize 18<CR><C-w>k
+  nnoremap <buffer> <BS> 0<C-w>o<C-w>sgF<C-w>j:resize 18<CR>
 endfunction
 
 " Switch to from insert to normal mode automatically after a timeout.
