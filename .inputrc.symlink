@@ -10,6 +10,8 @@ $if mode=vi
 
     set keymap vi-insert
     TAB: menu-complete # Make tab cycle between completions
+    # Use fzf for tab completion
+    #TAB: "\C-t"
 
     # Keep some emacs-mode bindings
     "\C-a": beginning-of-line
@@ -20,7 +22,7 @@ $if mode=vi
 
     # Custom bindings
     "\C-p": " \$( | percol)\ebbhi" # Select with interactive grep
-    "\C-t": "\C-a#"   # Prepend a comment
+    #"\C-t": "\C-a#"   # Prepend a comment
     "\C-v": "\C-e | vi -"   # Pipe to vi
     "\e[A":history-search-backward
     "\e[B":history-search-forward

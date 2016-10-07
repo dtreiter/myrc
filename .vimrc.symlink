@@ -53,6 +53,9 @@ nnoremap <Leader>fw :write<Space>
 nnoremap <Leader>fed :edit $MYVIMRC<CR>
 nnoremap <Leader>feR :source $MYVIMRC<CR>
 
+" Remove surround statement
+nnoremap <Leader>ds va}o<Esc>$<%$%dd''.
+
 " Windows
 nnoremap <Leader>1 1<C-w>w
 nnoremap <Leader>2 2<C-w>w
@@ -67,6 +70,7 @@ nnoremap <Leader>wl <C-w>l
 nnoremap <Leader>wm <C-w>o
 nnoremap <Leader>ws <C-w>s
 nnoremap <Leader>wv <C-w>v
+nnoremap <Leader>ww :!tmux display-panes<CR><CR>
 
 " Buffer
 nnoremap <Leader><Space> <PageDown>

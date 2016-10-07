@@ -12,8 +12,8 @@ bind down:ctrl;cmd   resize +0 -50%
 bind i:cmd hint
 
 # O(1) window switching
-bind f1 focus 'iTerm'
-bind f2 focus 'Google Chrome'
+bind f1 focus 'Google Chrome'
+bind f2 focus 'iTerm'
 bind f4 focus 'Slack'
 bind f5 focus 'Microsoft Outlook'
 

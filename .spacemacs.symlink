@@ -29,6 +29,7 @@ values."
      git
      yaml
      markdown
+     go
      ;; org
      ;; (shell :variables
      ;;        shell-default-height 30
@@ -101,12 +102,12 @@ values."
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
    dotspacemacs-themes '(
-                         zenburn
                          leuven
-                         ;monokai
-                         ;spacemacs-dark
-                         ;spacemacs-light
-                         ;solarized-light
+                         zenburn
+                         spacemacs-light
+                         spacemacs-dark
+                         solarized-light
+                         monokai
                          ;solarized-dark
                          )
    ;; If non nil the cursor color matches the state color in GUI Emacs.
@@ -265,6 +266,7 @@ layers configuration. You are free to put any user code."
   ;; Turn off default text in helm swoop
   (setq helm-swoop-pre-input-function (lambda () nil))
 
+  ;; TODO Try evil-snipe layer instead
   (evil-snipe-mode 1)
   (setq evil-snipe-scope 'whole-buffer)
   (setq evil-snipe-repeat-scope 'whole-buffer)
@@ -285,12 +287,15 @@ layers configuration. You are free to put any user code."
   (define-key evil-insert-state-map (kbd "C-,") #'yas-next-field)
   (define-key evil-insert-state-map (kbd "C-e") #'yas-next-field)
 
+  ;; Easily fold
+  (define-key evil-normal-state-map (kbd "C-s") #'evil-toggle-fold)
+
   ;; Move through wrapped lines
   (define-key evil-normal-state-map (kbd "j") 'evil-next-visual-line)
   (define-key evil-normal-state-map (kbd "k") 'evil-previous-visual-line)
 
   ;; Make s enter custom view-mode
-  ;; (define-key evil-normal-state-map (kbd "s") 'me/view-mode-enable)
+  (define-key evil-normal-state-map (kbd "\\") 'me/view-mode-enable)
 
   ;; Configure whitespace for tcl and rvt files
   (add-to-list 'auto-mode-alist '("\\.\\(rvt\\|tcl\\|test\\)" . tcl-mode))
@@ -302,6 +307,13 @@ layers configuration. You are free to put any user code."
   (add-hook 'tcl-mode-hook 'me/use-tabs)
   (add-hook 'js-mode-hook 'me/use-tabs)
   (add-hook 'css-mode-hook 'me/use-tabs)
+
+  (defun me/evil-escape-timer ()
+    (run-at-time "5 sec" 1
+                 '(lambda ()
+                    (message "hi there"))))
+
+  ;; (add-hook 'evil-insert-state-entry-hook #'me/evil-escape-timer)
 
   ;; Add clear function to eshell
   (defun eshell/clear ()
@@ -344,6 +356,24 @@ layers configuration. You are free to put any user code."
   ;; Keep autosave from misbehaving over tramp
   (setq tramp-auto-save-directory "/tmp")
 
+  (defun me/word-at-point ()
+    "Same as `thing-at-point' but includes underscores"
+    (interactive)
+    (let (p1 p2)
+      (save-excursion
+        (skip-chars-backward "-a-z0-9_")
+        (setq p1 (point))
+        (skip-chars-forward "-a-z0-9_")
+        (setq p2 (point))
+        (buffer-substring-no-properties p1 p2))))
+
+  (defun me/insert-js-debugger ()
+    "Inserts a `debugger' line into the buffer on the previous line."
+    (interactive)
+    (evil-open-above 1)
+    (insert "debugger;")
+    (evil-force-normal-state))
+
   (defun me/load-work ()
     (interactive)
     (load-file "~/.work.el"))
@@ -356,12 +386,21 @@ layers configuration. You are free to put any user code."
       (let ((selection (regexp-quote (buffer-substring-no-properties beg end))))
         (evil-set-register (string-to-char register) selection))))
 
+  (defun me/disable-trailing-whitespace ()
+    (interactive)
+    (setq show-trailing-whitespace nil))
+
   (defun me/view-mode-enable ()
     "Enable view-mode from evil"
     (interactive)
     (evil-emacs-state)
     (let ((current-prefix-arg '(4)))
       (call-interactively 'view-mode)))
+
+  (defun me/view-mode-disable ()
+    (interactive)
+    (View-exit)
+    (evil-exit-emacs-state))
 
   (defun me/local-shell-command (command)
     "Force shell-command to run locally to get around TRAMP."
@@ -382,13 +421,21 @@ layers configuration. You are free to put any user code."
   (defun me/git-grep (pattern)
     "Call `git-grep' with reasonable defaults."
     (interactive "sEnter search regex: ")
-    (let ((search-term (thing-at-point 'word))
+    (let ((search-term (me/word-at-point))
           (find-command
            (lambda (search-term)
              (concat "git --no-pager grep -Ei --break --line-number -e \"" search-term "\" -- `git rev-parse --show-toplevel`"))))
       (if (string= "" pattern)
-          (find-grep (funcall find-command (thing-at-point 'word)))
+          (find-grep (funcall find-command search-term))
         (find-grep (funcall find-command pattern)))))
+
+  (defun me/follow-3-column ()
+    "Puts the current buffer in 3 columns layout with follow-mode enabled."
+    (interactive)
+    (spacemacs/toggle-maximize-buffer)
+    (split-window-right)
+    (split-window-right)
+    (follow-mode))
 
   (defun me/layout-double-columns ()
     "Set the layout to double columns."
@@ -399,33 +446,50 @@ layers configuration. You are free to put any user code."
     (spacemacs/alternate-buffer)
     (balance-windows))
 
+  (defun me/magit-swoop-diff ()
+    "Runs helm-swoop on magit's diff."
+    (interactive)
+    (magit-diff-working-tree)
+    (helm-swoop))
+
   ;; Make 'g' go to top of page in grep-mode.
   (add-hook 'grep-mode-hook
             (lambda ()
               (define-key grep-mode-map (kbd "g") #'evil-goto-first-line)))
 
   (defun me/view-mode-config ()
-    "Make view-mode exit fit the spacemacs workflow"
-    (define-key view-mode-map (kbd "q")
-      (lambda ()
-        (interactive)
-        (View-exit)
-        (evil-exit-emacs-state)))
+    "Bindings for view-mode."
+    (define-key view-mode-map (kbd "ESC") #'me/view-mode-disable)
+    (define-key view-mode-map (kbd "0") #'select-window-0)
+    (define-key view-mode-map (kbd "1") #'select-window-1)
+    (define-key view-mode-map (kbd "2") #'select-window-2)
+    (define-key view-mode-map (kbd "3") #'select-window-3)
+    (define-key view-mode-map (kbd "4") #'select-window-4)
+    (define-key view-mode-map (kbd "5") #'select-window-5)
+    (define-key view-mode-map (kbd "6") #'select-window-6)
+    (define-key view-mode-map (kbd "7") #'select-window-7)
+    (define-key view-mode-map (kbd "8") #'select-window-8)
+    (define-key view-mode-map (kbd "9") #'select-window-9)
     (define-key view-mode-map (kbd "a") #'spacemacs/alternate-buffer)
     (define-key view-mode-map (kbd "b") #'evil-scroll-page-up)
     (define-key view-mode-map (kbd "c") #'delete-window)
     (define-key view-mode-map (kbd "d") #'evil-scroll-down)
+    (define-key view-mode-map (kbd "D") #'magit-diff-popup)
     (define-key view-mode-map (kbd "e") #'evil-goto-line)
-    (define-key view-mode-map (kbd "f") #'evil-scroll-page-down)
-    (define-key view-mode-map (kbd "F") #'ace-jump-word-mode)
+    ;; (define-key view-mode-map (kbd "f") #'evil-scroll-page-down)
+    (define-key view-mode-map (kbd "f") #'avy-goto-word-or-subword-1)
+    ;; (define-key view-mode-map (kbd "F") #'helm-projectile-find-file)
+    (define-key view-mode-map (kbd "F") #'work/search-filetree)
     (define-key view-mode-map (kbd "g") #'evil-goto-first-line)
-    (define-key view-mode-map (kbd "i") #'evil-jumper/forward)
+    ;(define-key view-mode-map (kbd "i") #'evil-jumper/forward)
     (define-key view-mode-map (kbd "l") #'helm-buffers-list)
-    (define-key view-mode-map (kbd "m") #'evil-window-middle)
+    (define-key view-mode-map (kbd "m") #'spacemacs/toggle-maximize-buffer)
     (define-key view-mode-map (kbd "n") #'spacemacs/next-useful-buffer)
-    (define-key view-mode-map (kbd "o") #'evil-jumper/backward)
+    ;(define-key view-mode-map (kbd "o") #'evil-jumper/backward)
+    (define-key view-mode-map (kbd "O") #'me/follow-3-column)
     (define-key view-mode-map (kbd "p") #'spacemacs/previous-useful-buffer)
-    (define-key view-mode-map (kbd "r") #'rotate-windows)
+    (define-key view-mode-map (kbd "q") #'me/view-mode-disable)
+    (define-key view-mode-map (kbd "r") #'spacemacs/rotate-windows)
     (define-key view-mode-map (kbd "s") #'helm-swoop)
     (define-key view-mode-map (kbd "S") #'split-window-below-and-focus)
     (define-key view-mode-map (kbd "t") #'evil-scroll-line-to-top)
@@ -433,9 +497,13 @@ layers configuration. You are free to put any user code."
     (define-key view-mode-map (kbd "v") #'split-window-right-and-focus)
     (define-key view-mode-map (kbd "w") #'other-window)
     (define-key view-mode-map (kbd "y") #'other-frame)
+    (define-key view-mode-map (kbd "Y") #'make-frame-command)
     (define-key view-mode-map (kbd "z") #'evil-scroll-line-to-center)
     (define-key view-mode-map (kbd ";") #'helm-M-x)
-    (define-key view-mode-map (kbd "/") #'isearch-forward-regexp))
+    (define-key view-mode-map (kbd "]") #'evil-jump-to-tag)
+    (define-key view-mode-map (kbd "[") #'helm-etags-select)
+    (define-key view-mode-map (kbd "*") #'spacemacs/helm-project-smart-do-search-region-or-symbol)
+    (define-key view-mode-map (kbd "/") #'spacemacs/helm-project-smart-do-search))
 
   (add-hook 'view-mode-hook #'me/view-mode-config)
 
@@ -443,7 +511,9 @@ layers configuration. You are free to put any user code."
   (spacemacs/set-leader-keys
     "SPC" #'evil-scroll-page-down
     ";"  #'helm-M-x
+    "bc" #'spacemacs/new-empty-buffer
     "bv" #'me/view-mode-enable
+    "cd" #'me/insert-js-debugger
     "d"  #'evil-scroll-page-up
     "eh" #'eshell
     "fb" #'me/save-file-and-refresh-chrome
@@ -461,8 +531,10 @@ layers configuration. You are free to put any user code."
     "or" #'org-ctrl-c-ctrl-c
     "od" #'org-move-item-down
     "ou" #'org-move-item-up
+    "sd" #'me/magit-swoop-diff
     "st" #'helm-etags-select
     "to" #'follow-mode
+    "tt" #'me/disable-trailing-whitespace
     "rc" #'me/yank-to-register
     "rs" #'yas/insert-snippet
     "wr" #'spacemacs/rotate-windows
@@ -475,17 +547,3 @@ layers configuration. You are free to put any user code."
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
-(custom-set-variables
- '(helm-completing-read-handlers-alist
-   (quote
-    ((describe-function . helm-completing-read-symbols)
-     (describe-variable . helm-completing-read-symbols)
-     (debug-on-entry . helm-completing-read-symbols)
-     (find-function . helm-completing-read-symbols)
-     (trace-function . helm-completing-read-symbols)
-     (trace-function-foreground . helm-completing-read-symbols)
-     (trace-function-background . helm-completing-read-symbols)
-     (find-tag . helm-completing-read-with-cands-in-buffer)
-     (ffap-alternate-file)
-     (tmm-menubar)
-     (execute-extended-command)))))
