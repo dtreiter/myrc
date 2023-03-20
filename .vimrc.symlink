@@ -54,7 +54,6 @@ nnoremap <Leader>tn :set invnumber<CR>
 nnoremap <Leader>tr :set invrelativenumber<CR>
 nnoremap <Leader>tl :set invcursorline<CR>
 nnoremap <Leader>sc :nohl<CR>
-nmap <Leader>tt :call ToggleAutoEscape()<cr>
 
 " Files
 nnoremap <Leader>ft :Vexplore<CR>
@@ -105,6 +104,24 @@ nnoremap <Leader>gs :call NewScratchBuffer('git.vim')<CR>q:a:read! git status<CR
 nnoremap <Leader>qq :qa<CR>
 nnoremap <Leader>qQ :qa!<CR>
 
+function IsFiletreeOpen()
+  return bufname(tabpagebuflist()[0]) == "NetrwTreeListing"
+endfunction
+
+function GoToLineOtherWindow(shouldReturnToWin)
+  let sourceWindow = winnr()
+  let otherWindow = IsFiletreeOpen() == 1 ? 2 : 1
+  let bufName = bufname()
+  let lineNum = line('.')
+  execute otherWindow .. "wincmd w"
+  execute "buffer " . bufName
+  execute "normal " . lineNum . "gg"
+  execute "normal 0gF"
+  if a:shouldReturnToWin > 0
+    execute sourceWindow .. "wincmd w"
+  endif
+endfunction
+
 " Makes a split window below the current window if there is not a window with
 " the buffer `name` visible.
 function NewScratchBuffer(name)
@@ -120,15 +137,7 @@ function NewScratchBuffer(name)
     below 18new
     execute "file" a:name
     setlocal buftype=nofile
-    nnoremap <buffer> <CR> 0<C-w>o<C-w>sgF<C-w>j:resize 18<CR><C-w>k
-    nnoremap <buffer> <BS> 0<C-w>o<C-w>sgF<C-w>j:resize 18<CR>
+    nnoremap <buffer> <CR> :call GoToLineOtherWindow(0)<CR>
+    nnoremap <buffer> <BS> :call GoToLineOtherWindow(1)<CR>
   endif
-endfunction
-
-" Switch to from insert to normal mode automatically after a timeout.
-let s:on = 0
-function ToggleAutoEscape()
-  let &updatetime = 1500
-  let s:on = !s:on
-  exec "au".((s:on)?"":"!") "CursorHoldI *" ((s:on)?"stopinsert":"")
 endfunction
