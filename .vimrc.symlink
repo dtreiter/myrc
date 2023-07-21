@@ -56,7 +56,7 @@ nnoremap <Leader>tl :set invcursorline<CR>
 nnoremap <Leader>sc :nohl<CR>
 
 " Files
-nnoremap <Leader>ft :Vexplore<CR>
+nnoremap <Leader>ft :Lexplore<CR>
 nnoremap <Leader>ff :edit 
 nnoremap <Leader>fs :write<CR>
 nnoremap <Leader>fw :write<Space>
@@ -103,6 +103,19 @@ nnoremap <Leader>gs :call NewScratchBuffer('git.vim')<CR>q:a:read! git status<CR
 " Quitting
 nnoremap <Leader>qq :qa<CR>
 nnoremap <Leader>qQ :qa!<CR>
+
+" Support org-mode like folding
+function OrgFold(lnum)
+  let level = strlen(matchstr(getline(a:lnum), '\v^\s*\zs\*+'))
+  if level > 0
+    return '>'.level
+  else
+    return '='
+  endif
+endfunction
+set foldmethod=expr foldexpr=OrgFold(v:lnum)
+set foldtext=getline(v:foldstart).'...'.repeat('\ ',999)
+nnoremap <Tab> za
 
 function IsFiletreeOpen()
   return bufname(tabpagebuflist()[0]) == "NetrwTreeListing"
